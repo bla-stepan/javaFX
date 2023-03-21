@@ -83,34 +83,41 @@ public class LabMain extends Application {
         //создаем кнопку
         Button button = new Button("Рассчитать");
         button.setOnAction(event -> {
+
             if (weightEnter.getText().matches("[0-9]+")) {
                 int ccal;
-                switch (listComboBox.getValue()) {
-                    case "Колбаса":
-                        ccal = 100;
-                        break;
-                    case "Индейка":
-                        ccal = 198;
-                        break;
-                    case "Омлет":
-                        ccal = 209;
-                        break;
-                    case "Вафли":
-                        ccal = 543;
-                        break;
-                    case "Вишня":
-                        ccal = 52;
-                        break;
-                    case "Огурцы":
-                        ccal = 13;
-                        break;
-                    default:
-                        ccal = 0;
-                        result.setText("Не выбран продукт для расчета.");
-                        result.setFill(Color.RED);
+                try {
+                    switch (listComboBox.getValue()) {
+                        case "Колбаса":
+                            ccal = 100;
+                            break;
+                        case "Индейка":
+                            ccal = 198;
+                            break;
+                        case "Омлет":
+                            ccal = 209;
+                            break;
+                        case "Вафли":
+                            ccal = 543;
+                            break;
+                        case "Вишня":
+                            ccal = 52;
+                            break;
+                        case "Огурцы":
+                            ccal = 13;
+                            break;
+                        default:
+                            ccal = 0;
+                    }
+                    int colorfulness = ccal * Integer.parseInt(weightEnter.getText());
+                    result.setText("Колорийность продукта (" + listComboBox.getValue() + ") составляет: " + String.valueOf(colorfulness) + " ккал.");
+                    result.setFill(Color.GREEN);
+                } catch (NullPointerException e) {
+                    result.setText("Не выбран продукт для расчета.");
+                    result.setFill(Color.RED);
+                    ccal = 0;
                 }
-                int colorfulness = ccal * Integer.parseInt(weightEnter.getText());
-                result.setText("Колорийность продукта (" + listComboBox.getValue() + ") составляет: " + String.valueOf(colorfulness) + " ккал.");
+
             } else {
                 result.setText("Не правильно введен вес продукта.");
                 result.setFill(Color.AQUA);
