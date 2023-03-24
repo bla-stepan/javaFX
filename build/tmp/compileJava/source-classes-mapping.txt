@@ -1,4 +1,6 @@
-EnterAge/Main.java
- EnterAge.Main
 Lab/LabMain.java
  Lab.LabMain
+EnterAge/Main.java
+ EnterAge.Main
+JavaFXExample/JavaFXExample.java
+ JavaFXExample.JavaFXExample
