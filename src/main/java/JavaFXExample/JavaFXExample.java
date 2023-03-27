@@ -25,12 +25,13 @@ public class JavaFXExample extends Application {
         Tab tabComboBox = new Tab("Пример ComboBox", comboBoxExample());
         Tab tabToggleButton = new Tab("Пример ToggleButton", toggleButtonExample());
         Tab tabRadioButton = new Tab("Пример RadioButton", radioButtonExample());
+        Tab tabSpinner = new Tab("Пример Spinner", spinnerExample());
 
         //создание TabPane
         TabPane examples = new TabPane();
 
         //добавляем вкладки в Tab
-        examples.getTabs().addAll(tabComboBox, tabToggleButton, tabRadioButton);
+        examples.getTabs().addAll(tabComboBox, tabToggleButton, tabRadioButton, tabSpinner);
 
         //создаем заголовок
         primaryStage.setTitle("Примеры визуальных компонентов JavaFX");
@@ -246,6 +247,41 @@ public class JavaFXExample extends Application {
         hBoxRadioButtonExample.getChildren().add(gridPane2);
         //возвращаем корневой элемент HBox
         return hBoxRadioButtonExample;
+    }
+
+    private VBox spinnerExample(){
+        int prefWidth = 170;
+        //создаем счетчик объектов (числе)
+        Spinner<Integer> integerSpinner = new Spinner(-100, 100, 1);//задаются параметры мин, макс и шаг
+        integerSpinner.setEditable(true);//в метод передан параметр true, разрешаюший вводить дпустимые значения
+        integerSpinner.setStyle("-fx-font-size: 20px");//задаем шрифт при помощи метода сетстайл
+        integerSpinner.setPrefWidth(prefWidth);//задаем ширину счетчика
+
+        //создаем спиннер (счетчик) для дробных числе
+        Spinner<Double> doubleSpinner = new Spinner(-100.0, 100.0, 0.5, 0.1);
+        doubleSpinner.setEditable(false);
+        doubleSpinner.setStyle("-fx-font-size: 20px");
+        doubleSpinner.setPrefWidth(prefWidth);
+
+        //создаем метку для вывода выбранных текущих значений со спинеров
+        Label label = new Label("вывод значений счётчиков");
+        label.setFont(font);
+        label.setAlignment(Pos.CENTER);
+        label.setPrefSize(400, 100);
+
+        //создаем кнопку
+        Button button = new Button("вывод значений");
+        button.setFont(font);
+        button.setAlignment(Pos.CENTER);
+        button.setPrefWidth(prefWidth);
+        button.setOnAction(event -> {
+            label.setText("integer spinner: "+integerSpinner.getValue()+"\ndouble spinner: "+doubleSpinner.getValue());
+        });
+        VBox vBoxSpinner = new VBox();
+        vBoxSpinner.setPadding(new Insets(50, 100, 50,100));
+        vBoxSpinner.setAlignment(Pos.CENTER);
+        vBoxSpinner.getChildren().addAll(integerSpinner, doubleSpinner, button, label);
+        return vBoxSpinner;
     }
 
     public static void main(String[] args) {
