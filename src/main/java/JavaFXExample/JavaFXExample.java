@@ -4,13 +4,13 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -24,12 +24,13 @@ public class JavaFXExample extends Application {
         //создание элемента Tab с названием и панелью с элементами
         Tab tabComboBox = new Tab("Пример ComboBox", comboBoxExample());
         Tab tabToggleButton = new Tab("Пример ToggleButton", toggleButtonExample());
+        Tab tabRadioButton = new Tab("Пример RadioButton", radioButtonExample());
 
         //создание TabPane
         TabPane examples = new TabPane();
 
         //добавляем вкладки в Tab
-        examples.getTabs().addAll(tabComboBox, tabToggleButton);
+        examples.getTabs().addAll(tabComboBox, tabToggleButton, tabRadioButton);
 
         //создаем заголовок
         primaryStage.setTitle("Примеры визуальных компонентов JavaFX");
@@ -129,13 +130,122 @@ public class JavaFXExample extends Application {
             }
         });
 
-        VBox vBoxToggleButton = new VBox();
+        VBox vBoxToggleButton = new VBox(10);
         vBoxToggleButton.setPadding(new Insets(10, 100, 10, 100));
-        vBoxToggleButton.setSpacing(10);
+        //vBoxToggleButton.setSpacing(10); параметр указан в конструкторе
         vBoxToggleButton.setAlignment(Pos.CENTER);
         vBoxToggleButton.getChildren().addAll(toggleButton, result);
 
         return vBoxToggleButton;
+    }
+
+    private HBox radioButtonExample(){
+        Insets insets = new Insets(20, 20, 20, 20);
+        //создаем панель с размещением по горизонтали для расположения двух таблиц с радиокнопками и метками
+        HBox hBoxRadioButtonExample = new HBox();
+        //создаем панель таблицы
+        GridPane gridPane1 = new GridPane();
+        gridPane1.setVgap(40);
+        gridPane1.setHgap(110);
+        gridPane1.setPadding(insets);
+
+        //создаем метку для отображения картинки
+        Label labelImage1 = new Label();
+        labelImage1.setPrefSize(210, 270);
+
+        gridPane1.add(labelImage1, 1, 0, 1, 3);//размещаем картинку во 2-й колонке в 1-й строке на 1 колонке и 3-х строках
+
+        //создаем группу, для задания ее радиокнопкам
+        ToggleGroup group1 = new ToggleGroup();
+
+        //создаем радиокнопку
+        RadioButton radioButtonDog = new RadioButton("Собака");
+        radioButtonDog.setToggleGroup(group1);//назначаем группу
+        radioButtonDog.setFont(font);//задаем шрифт
+        //radioButtonDog.setSelected(true);//можно задать параметр по умолчанию вкл. или выкл.
+        //создаем обработку действия нажания на кнопку
+        radioButtonDog.setOnAction(event -> {
+            //создаем доступ к изображению как к ресурсу проекта, класс Images хранит но не отображает информацию об изображении
+            Image imageDog = new Image(getClass().getResourceAsStream("images/dog.jpg"));
+            //для отображения изображения, его нужно передать в объект класса ImageView
+            ImageView imageViewDog = new ImageView(imageDog);
+            labelImage1.setGraphic(imageViewDog);
+        });
+        gridPane1.add(radioButtonDog, 0, 0);
+
+        //радиокнопка дом
+        RadioButton radioButtonHouse = new RadioButton("Дом");
+        radioButtonHouse.setToggleGroup(group1);
+        radioButtonHouse.setFont(font);
+        radioButtonHouse.setOnAction(event -> {
+            labelImage1.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/house.jpg"))));
+        });
+        gridPane1.add(radioButtonHouse, 0, 1);
+
+        //радиокнопка дерево
+        RadioButton radioButtonTree = new RadioButton("Дерево");
+        radioButtonTree.setToggleGroup(group1);
+        radioButtonTree.setFont(font);
+        radioButtonTree.setOnAction(event -> {
+            labelImage1.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/tree.jpg"))));
+        });
+        gridPane1.add(radioButtonTree, 0, 2);
+
+        //помещаем панель в конревой элемент
+        hBoxRadioButtonExample.getChildren().add(gridPane1);
+
+        //создаем разделитель вертикальный
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.VERTICAL);//задаем вертикальную ориентацию
+
+        //создаем новую панель
+        GridPane gridPane2 = new GridPane();
+        gridPane2.setVgap(40);
+        gridPane2.setHgap(110);
+        gridPane2.setPadding(insets);
+
+        //создаем метку
+        Label labelImage2 = new Label();
+        labelImage2.setPrefSize(210, 270);
+        gridPane2.add(labelImage2, 1, 0, 1, 3);
+
+        //создаем вторую группу радиокнопок
+        ToggleGroup group2 = new ToggleGroup();
+
+        //создаем радиокнопки
+        RadioButton radioButtonDog2 = new RadioButton("Собака");
+        radioButtonDog2.setToggleGroup(group2);
+        radioButtonDog2.setFont(font);
+        gridPane2.add(radioButtonDog2, 0,0);
+
+        RadioButton radioButtonHouse2 = new RadioButton("Дом");
+        radioButtonHouse2.setToggleGroup(group2);
+        radioButtonHouse2.setFont(font);
+        gridPane2.add(radioButtonHouse2, 0, 1);
+
+        RadioButton radioButtonTree2 = new RadioButton("Дерево");
+        radioButtonTree2.setToggleGroup(group2);
+        radioButtonTree2.setFont(font);
+        gridPane2.add(radioButtonTree2, 0, 2);
+
+        Button button = new Button("Ok");
+        button.setFont(font);
+        button.setOnAction(event -> {
+            if (radioButtonDog2.isSelected()){
+                labelImage2.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/dog.jpg"))));
+            }
+            if (radioButtonHouse2.isSelected()){
+                labelImage2.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/house.jpg"))));
+            }
+            if (radioButtonTree2.isSelected()){
+                labelImage2.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/tree.jpg"))));
+            }
+        });
+        gridPane2.add(button, 0, 3, 2, 1);
+
+        hBoxRadioButtonExample.getChildren().add(gridPane2);
+        //возвращаем корневой элемент HBox
+        return hBoxRadioButtonExample;
     }
 
     public static void main(String[] args) {
