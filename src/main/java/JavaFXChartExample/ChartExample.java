@@ -1,15 +1,22 @@
 package JavaFXChartExample;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+//import java.awt.event.MouseEvent;
+import javafx.scene.input.MouseEvent;
+
 //ПРИНЦИПИАЛЬНЫЙ ПРИМЕР СОЗДАНИЯ ГИСТОГРАММЫ
 public class ChartExample extends Application {
     @Override
@@ -17,10 +24,12 @@ public class ChartExample extends Application {
         //создаем вкладки
         Tab tabBarChart = new Tab("BarChart", createBarChart());
         Tab tabLineChart = new Tab("LineChart", createLineChart());
+        Tab tabPieChart = new Tab("PieChart", createPieChart());
+
 
         //создаем корневой элемент панели для вкладок
         TabPane tabPaneMin = new TabPane();
-        tabPaneMin.getTabs().addAll(tabBarChart, tabLineChart);
+        tabPaneMin.getTabs().addAll(tabBarChart, tabLineChart, tabPieChart);
         primaryStage.setTitle("Примеры графиков и диаограмм");
         primaryStage.setScene(new Scene(tabPaneMin));
         primaryStage.show();
@@ -74,7 +83,7 @@ public class ChartExample extends Application {
         may.getData().add(new XYChart.Data(countries[3], 26.1));
         may.getData().add(new XYChart.Data(countries[4], 32.55));
 
-        XYChart.Series june= new XYChart.Series();
+        XYChart.Series june = new XYChart.Series();
         june.setName("Июнь");
         june.getData().add(new XYChart.Data(countries[0], 22.5));
         june.getData().add(new XYChart.Data(countries[1], 24.5));
@@ -82,7 +91,7 @@ public class ChartExample extends Application {
         june.getData().add(new XYChart.Data(countries[3], 29.1));
         june.getData().add(new XYChart.Data(countries[4], 36.55));
 
-        XYChart.Series july= new XYChart.Series();
+        XYChart.Series july = new XYChart.Series();
         july.setName("Июль");
         july.getData().add(new XYChart.Data(countries[0], 21.5));
         july.getData().add(new XYChart.Data(countries[1], 23.5));
@@ -99,7 +108,7 @@ public class ChartExample extends Application {
     }
 
     //создаем график - объект LineChart
-    private Group createLineChart(){
+    private Group createLineChart() {
         Group groupLineChart = new Group();
 
         //создаем объект класса Function
@@ -122,6 +131,49 @@ public class ChartExample extends Application {
         groupLineChart.getChildren().add(lineChart);
 
         return groupLineChart;
+    }
+
+    //создаем круговую диограмму - объект PieChart
+    private Group createPieChart() {
+        //создаем панель
+        Group groupPieChart = new Group();
+
+        //создаем лист с объектами pieChart.Data
+        ObservableList<PieChart.Data> pieChartDataList = FXCollections.observableArrayList(
+                new PieChart.Data("Руководители", 16),
+                new PieChart.Data("Начальники", 22),
+                new PieChart.Data("Специалисты", 98),
+                new PieChart.Data("Рабочие", 314),
+                new PieChart.Data("Водители", 125),
+                new PieChart.Data("Охранники", 212));
+        //создаем сам объект pierChart, передаем в него лист со значениями. PieChatr высчитает долю каждого значения в общих значениях
+        PieChart chart = new PieChart(pieChartDataList);
+        //зааем параметры для объекта PierChart
+        chart.setTitle("Состав сотрудников");
+        chart.setLegendSide(Side.BOTTOM);//задаем положение легенты относительно диагараммы (внизу)
+
+        //для отображения значения категории при нажатии на нее мышью
+        //создаем пустую метку
+        Label caption = new Label("");
+        //задаем параметры метки
+        caption.setTextFill(Color.BLACK);//задаем цвет
+        caption.setStyle("-fx-font: 16 arial;");//задам шрифт
+
+        //помещаем метку на панель
+        groupPieChart.getChildren().add(caption);
+        //пишем код обработки события мыши (нажание на категорию)
+        //создаем цикл
+        for (PieChart.Data data : chart.getData()) {
+            //получаем у объекта категории объект Node и вызываем у него обработку события мыши
+            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
+                caption.setTranslateX(event.getSceneX() - caption.getWidth() / 2);
+                caption.setTranslateY(event.getSceneY() - caption.getHeight());
+                caption.setText(Math.round(data.getPieValue()) + " чел.");
+                caption.toFront();
+            });
+        }
+        groupPieChart.getChildren().add(chart);
+        return groupPieChart;
     }
 
     public static void main(String[] args) {
