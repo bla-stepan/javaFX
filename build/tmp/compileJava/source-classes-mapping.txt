@@ -1,8 +1,10 @@
 Lab/LabMain.java
  Lab.LabMain
-JavaFXChartExample/ChartExample.java
- JavaFXChartExample.ChartExample
-EnterAge/Main.java
- EnterAge.Main
 JavaFXExample/JavaFXExample.java
  JavaFXExample.JavaFXExample
+EnterAge/Main.java
+ EnterAge.Main
+JavaFXChartExample/Function.java
+ JavaFXChartExample.Function
+JavaFXChartExample/ChartExample.java
+ JavaFXChartExample.ChartExample

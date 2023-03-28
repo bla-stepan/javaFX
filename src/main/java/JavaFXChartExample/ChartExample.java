@@ -1,14 +1,14 @@
 package JavaFXChartExample;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 //ПРИНЦИПИАЛЬНЫЙ ПРИМЕР СОЗДАНИЯ ГИСТОГРАММЫ
 public class ChartExample extends Application {
@@ -16,10 +16,11 @@ public class ChartExample extends Application {
     public void start(Stage primaryStage) throws Exception {
         //создаем вкладки
         Tab tabBarChart = new Tab("BarChart", createBarChart());
+        Tab tabLineChart = new Tab("LineChart", createLineChart());
 
         //создаем корневой элемент панели для вкладок
         TabPane tabPaneMin = new TabPane();
-        tabPaneMin.getTabs().addAll(tabBarChart);
+        tabPaneMin.getTabs().addAll(tabBarChart, tabLineChart);
         primaryStage.setTitle("Примеры графиков и диаограмм");
         primaryStage.setScene(new Scene(tabPaneMin));
         primaryStage.show();
@@ -95,6 +96,32 @@ public class ChartExample extends Application {
         group.getChildren().add(barChart);
 
         return group;
+    }
+
+    //создаем график - объект LineChart
+    private Group createLineChart(){
+        Group groupLineChart = new Group();
+
+        //создаем объект класса Function
+        Function function = new Function(-5, 3, 600);
+
+        //создаем оси для графика (обе оси будут числовые)
+        NumberAxis numberAxisX = new NumberAxis();
+        NumberAxis numberAxisY = new NumberAxis();
+
+        //создаем объект графика
+        LineChart<Number, Number> lineChart = new LineChart<>(numberAxisX, numberAxisY);
+        //методы настройки
+        lineChart.setCreateSymbols(false);//делаем график вв виде линии (по умолчанию точки)
+        lineChart.setLayoutX(400);
+        lineChart.setLayoutY(60);
+        lineChart.setMinHeight(600);
+        lineChart.setMinWidth(600);
+        lineChart.getData().add(function.getSeries());
+
+        groupLineChart.getChildren().add(lineChart);
+
+        return groupLineChart;
     }
 
     public static void main(String[] args) {
