@@ -27,6 +27,7 @@ public class JavaFXExample extends Application {
         Tab tabRadioButton = new Tab("Пример RadioButton", radioButtonExample());
         Tab tabSpinner = new Tab("Пример Spinner", spinnerExample());
 
+
         //создание TabPane
         TabPane examples = new TabPane();
 

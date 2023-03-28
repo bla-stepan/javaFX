@@ -8,7 +8,11 @@ group 'stepan'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
-mainClassName = 'JavaFXExample.JavaFXExample'//'Lab.LabMain'//'EnterAge.Main'
+
+//mainClassName = 'JavaFXExample.JavaFXExample'
+//mainClassName = 'Lab.LabMain'
+//mainClassName = 'EnterAge.Main'
+mainClassName = 'JavaFXChartExample.ChartExample'
 
 repositories {
     mavenCentral()
