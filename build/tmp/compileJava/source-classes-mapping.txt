@@ -1,10 +1,16 @@
 Lab/LabMain.java
  Lab.LabMain
-JavaFXExample/JavaFXExample.java
- JavaFXExample.JavaFXExample
-EnterAge/Main.java
- EnterAge.Main
-JavaFXChartExample/Function.java
- JavaFXChartExample.Function
+JavaFX_213/MVCExample/model/ModelOrganization.java
+ JavaFX_213.MVCExample.model.ModelOrganization
 JavaFXChartExample/ChartExample.java
  JavaFXChartExample.ChartExample
+EnterAge/Main.java
+ EnterAge.Main
+JavaFXExample/JavaFXExample.java
+ JavaFXExample.JavaFXExample
+JavaFXChartExample/Function.java
+ JavaFXChartExample.Function
+JavaFX_213/MVCExample/сontroller/ControllerOrganization.java
+ JavaFX_213.MVCExample.сontroller.ControllerOrganization
+JavaFX_213/MVCExample/view/ViewOrganisation.java
+ JavaFX_213.MVCExample.view.ViewOrganisation

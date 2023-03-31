@@ -12,9 +12,9 @@ public class Function {
 
     //создаем конструктор касса Function, который принимает параметры мин, макс, и шаг и рассчитывает значения для функции
     public Function(double min, double max, int numStep) {
-        xMin = min;
-        xMax = max;
-        step = numStep;
+        this.xMin = min;
+        this.xMax = max;
+        this.step = numStep;
     }
 
     //метод вычисления результата
