@@ -24,7 +24,7 @@ public class ViewOrganisation {
     private Text orgBonus;//вывод премиальных
     private Font font = Font.font("Tahoma", FontWeight.NORMAL, 20);//для сокращения кода пишем шрифт
 
-    //метод для сорздания контейнера (панели) с элементами
+    //метод для сорздания вида отображения информации
     private void createPane() {
         //задаем панель
         gridPane = new GridPane();//табличная панель
@@ -34,7 +34,7 @@ public class ViewOrganisation {
         gridPane.setVgap(10);//отступ элементов по горизонтали
         gridPane.setPadding(new Insets(25, 25, 25, 25));//расстояние по краям
 
-        //задаем название организации
+        //тектс название организации
         orgName = new Text();
         orgName.setFont(font);
         GridPane.setHalignment(orgName, HPos.CENTER);//выравниваем название организаци по середине строки

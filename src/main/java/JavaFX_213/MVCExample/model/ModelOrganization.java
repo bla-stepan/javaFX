@@ -16,32 +16,16 @@ public class ModelOrganization {
         return organizationName;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
     public int getPersonal() {
         return personal;
-    }
-
-    public void setPersonal(int personal) {
-        this.personal = personal;
     }
 
     public String getHoliday() {
         return holiday;
     }
 
-    public void setHoliday(String holiday) {
-        this.holiday = holiday;
-    }
-
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public Double getBonus() {
