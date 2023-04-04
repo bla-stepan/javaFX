@@ -3,9 +3,12 @@ package JavaFX_213.Lab3.controller;
 import JavaFX_213.Lab3.model.PetModel;
 import JavaFX_213.Lab3.view.PetView;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -23,6 +26,7 @@ public class PetMain extends Application {
         //создаем панель
         VBox vBox = new VBox(10);
         vBox.setAlignment(Pos.CENTER);
+        vBox.setPadding(new Insets(5, 5, 5, 5));
 
         //создаем объект вида и передаем в него объект модели
         PetView petView = new PetView(petModel);
@@ -38,6 +42,9 @@ public class PetMain extends Application {
         });
         vBox.getChildren().add(button);
 
+        Label label = new Label();
+        TextField edit = new TextField();
+        label.textProperty().bind(edit.textProperty());
         //настраиваем сцену
         Scene scene = new Scene(vBox, 500, 300);
         primaryStage.setScene(scene);

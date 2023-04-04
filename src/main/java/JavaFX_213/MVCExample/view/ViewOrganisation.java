@@ -3,6 +3,7 @@ package JavaFX_213.MVCExample.view;
 //задача вида - организация отображения данных
 
 import JavaFX_213.MVCExample.model.ModelOrganization;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -58,7 +59,7 @@ public class ViewOrganisation {
 
     //метод изменения тектовых полей
     public void setInform() {
-        orgName.setText(org.getOrganizationName());
+        orgName.setText(org.getName());
         orgHoliday.setText(org.getHoliday() + ". " + org.getDate().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));//приводим в нужный формат
         orgBonus.setText(Double.toString(org.getBonus()));
     }
@@ -66,7 +67,12 @@ public class ViewOrganisation {
     //метод загрузки орнанизации
     public void setOrganization(ModelOrganization org) {
         this.org = org;
-        setInform();//вызываем метод обработки элементов текста
+        //переделываем модель взаимодействия модели и вида с учетом свойств name и bonus
+        //объект вида делаем наблюдателем объектаМодели
+        Bindings.bindBidirectional(orgName.textProperty(), this.org.nameProperty());//вариант через статический метод
+        orgHoliday.setText(org.getHoliday() + ". " + org.getDate().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));//приводим в нужный формат
+        orgBonus.textProperty().bind(this.org.bonusProperty().asString());//объектВида.свойство.вызовМетодаBind(объектМоделиюсвойство). дополнительно переводим в строку т.к. bonus имеет тип Double
+        //setInform();//вызываем метод обработки элементов текста
     }
 
     //Конструктор вида

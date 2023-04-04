@@ -1,6 +1,7 @@
 package JavaFX_213.Lab3.view;
 
 import JavaFX_213.Lab3.model.PetModel;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -26,11 +27,12 @@ public class PetView {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setVgap(10);
         gridPane.setHgap(10);
-        gridPane.setPadding(new Insets(25, 25, 25, 25));
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         //оглавление
         Text paneTile = new Text("Питомец");
         paneTile.setFont(Font.font("Tahoma", FontWeight.BOLD, 25));
+        GridPane.setHalignment(paneTile, HPos.CENTER);
         gridPane.add(paneTile, 0, 0, 4, 1);
 
         //изображение
