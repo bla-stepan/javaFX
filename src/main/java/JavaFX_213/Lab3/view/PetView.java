@@ -1,11 +1,11 @@
 package JavaFX_213.Lab3.view;
 
 import JavaFX_213.Lab3.model.PetModel;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -16,7 +16,7 @@ public class PetView {
     //поле для связис с моделью
     private PetModel pet;
     private GridPane gridPane;//контейнер
-    private Text type, nickname, ownerName, photoName, age;
+    private Text type, nickname, ownerName, photoName, age, ageYear, ageMonth;
     private Label petPhoto;
     private Font font = Font.font("Tahoma", FontWeight.NORMAL, 20);//для сокращения кода пишем шрифт
     private int prefW = 200, prefH = 20;
@@ -75,6 +75,9 @@ public class PetView {
         ownerName.setFont(font);
         gridPane.add(ownerName, 2, 3);
 
+        ageYear = new Text();
+        ageMonth = new Text();
+
         age = new Text();
         age.setFont(font);
         gridPane.add(age, 2, 4);
@@ -83,17 +86,23 @@ public class PetView {
     //метод изменения информации текстовых объектов
     public void setInformation() {
         type.setText(pet.getType());
-        nickname.setText(pet.getNickname());
+        nickname.setText(pet.getNickName());
         ownerName.setText(pet.getOwnerName());
-        age.setText(createAgeString());
-//        petPhoto.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("images/toto.jpg"))));
+//        age.setText(createAgeString());
+//        petPhoto.setGraphic(new ImageView(pet.getPetPhoto("images/toto.jpg")));
     }
 
     //метод загрузки питомца
     public void setPet(PetModel pet){
         this.pet=pet;
+        Bindings.bindBidirectional(type.textProperty(), this.pet.typeProperty());
+        nickname.textProperty().bind(this.pet.nickNameProperty());
+        ownerName.textProperty().bind(this.pet.ownerNameProperty());
+        ageYear.textProperty().bind(this.pet.ageYearProperty().asString());
+        ageMonth.textProperty().bind(this.pet.ageMonthProperty().asString());
+        age.textProperty().set(createAgeString(pet));//передаем результат метода генерации строки
         //метод обновления данных
-        setInformation();
+//        setInformation();
     }
 
     //конструктор вида
@@ -109,9 +118,9 @@ public class PetView {
         return gridPane;
     }
     //метод генерации строки о возрасте
-    private String createAgeString() {
+    private String createAgeString(PetModel pet) {
         String str1;
-        int years = pet.getAgeYears();
+        int years = this.pet.getAgeYear();
         if (years == 1) {
             str1 = " год";
         } else if (years >= 2 && years <= 4) {
@@ -120,7 +129,7 @@ public class PetView {
             str1 = " лет";
         }
         String str2;
-        int month = pet.getAgeMonth();
+        int month = this.pet.getAgeMonth();
         if (month == 1) {
             str2 = " месяц";
         } else if (month >= 2 && month <= 4) {
@@ -128,6 +137,6 @@ public class PetView {
         } else {
             str2 = " месяцев";
         }
-        return pet.getAgeYears() + str1 + " " + pet.getAgeMonth() + str2;
+        return this.pet.getAgeYear() + str1 + " " + this.pet.getAgeMonth() + str2;
     }
 }
