@@ -5,18 +5,18 @@ import javafx.scene.image.Image;
 
 public class PetModel {
     private StringProperty type, nickName, ownerName, age;
-    private String photoName;
+//    private String photoName;
 //    private String age;
     private IntegerProperty ageMonth, ageYear;
 
     //Конструктор
-    public PetModel(String type, String nickName, String ownerName, int ageMonth, int ageYear, String photoName) {
+    public PetModel(String type, String nickName, String ownerName, int ageMonth, int ageYear){//, String photoName) {
         setType(type);//this.type = type;
         setNickName(nickName);//this.nickName = nickName;
         setOwnerName(ownerName);//this.ownerName = ownerName;
         setAgeMonth(ageMonth);//this.ageYears = ageYears;
         setAgeYear(ageYear);//this.ageMonth = ageMonth;
-        this.photoName = photoName;
+//        this.photoName = photoName;
     }
 
     //методы Property для свойст
@@ -75,13 +75,17 @@ public class PetModel {
         return ageMonthProperty().get();
     }
 
-    public Image getPetPhoto(String photoName) {
-        return new Image(getClass().getResourceAsStream(photoName));
+    public String getAge(){
+        return ageProperty().get();
     }
 
-    public String getPhotoName() {
-        return photoName;
-    }
+//    public Image getPetPhoto(String photoName) {
+//        return new Image(getClass().getResourceAsStream(photoName));
+//    }
+
+//    public String getPhotoName() {
+//        return photoName;
+//    }
 
     //сеттеры для параметров
     public void setType(String typeValue) {
@@ -102,6 +106,10 @@ public class PetModel {
 
     public void setAgeMonth(int ageMonthValue){
         ageMonthProperty().set(ageMonthValue);
+    }
+
+    public void setAge(String value){
+        ageProperty().set(value);
     }
     //метод для увеличения возраста питомца
 //    public void editAge() {
