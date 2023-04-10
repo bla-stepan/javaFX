@@ -15,7 +15,8 @@ sourceCompatibility = 11
 //mainClassName = 'JavaFXChartExample.ChartExample'
 //mainClassName = 'Lab2.WeatherCalendar'
 //mainClassName = 'JavaFX_213.MVCExample.сontroller.ControllerOrganization'
-mainClassName = 'JavaFX_213.Lab3.controller.PetMain'
+//mainClassName = 'JavaFX_213.Lab3.controller.PetMain'
+mainClassName = 'JavaFX_312.DialogExample.DialogExample'
 
 repositories {
     mavenCentral()

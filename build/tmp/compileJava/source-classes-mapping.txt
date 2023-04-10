@@ -1,3 +1,5 @@
+JavaFX_213/Lab3/controller/PetMain.java
+ JavaFX_213.Lab3.controller.PetMain
 JavaFXExample/JavaFXExample.java
  JavaFXExample.JavaFXExample
 Lab/LabMain.java
@@ -14,9 +16,9 @@ JavaFX_213/MVCExample/сontroller/ControllerOrganization.java
  JavaFX_213.MVCExample.сontroller.ControllerOrganization
 JavaFXChartExample/Function.java
  JavaFXChartExample.Function
-JavaFX_213/MVCExample/view/ViewOrganisation.java
- JavaFX_213.MVCExample.view.ViewOrganisation
-JavaFX_213/Lab3/controller/PetMain.java
- JavaFX_213.Lab3.controller.PetMain
 JavaFX_213/Lab3/view/PetView.java
  JavaFX_213.Lab3.view.PetView
+JavaFX_213/MVCExample/view/ViewOrganisation.java
+ JavaFX_213.MVCExample.view.ViewOrganisation
+JavaFX_312/DialogExample/DialogExample.java
+ JavaFX_312.DialogExample.DialogExample
