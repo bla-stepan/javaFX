@@ -5,15 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class DialogExample extends Application {
@@ -38,12 +37,12 @@ public class DialogExample extends Application {
             informDialog1();
         });
 
-        Button button2 = new Button("Информационное коно без картинки");
+        Button button2 = new Button("Информационное окно без картинки");
         button2.setOnAction((ActionEvent e)->{
             informDialog2();
         });
 
-        Button button3 = new Button("Информационное коно без заголовка");
+        Button button3 = new Button("Информационное окно без заголовка");
         button3.setOnAction((ActionEvent e)->{
             informDialog3();
         });
@@ -58,10 +57,19 @@ public class DialogExample extends Application {
             informDialog5();
         });
 
-        vBox.getChildren().addAll(label, button1, button2, button3, button4, button5);
+        Button button6 = new Button("Окно ввода текста");
+        button6.setOnAction(ActionEvent ->{
+            textInputDialog();
+        });
 
-        Scene scene = new Scene(vBox, 700, 400);
-        primaryStage.setScene(scene);
+        Button button7 = new Button("Окно с выбором из списка");
+        button7.setOnAction(ActionEvent ->{
+            choiceDialog();
+        });
+
+        vBox.getChildren().addAll(label, button1, button2, button3, button4, button5, button6, button7);
+
+        primaryStage.setScene(new Scene(vBox, 700, 400));
         primaryStage.show();
     }
 
@@ -120,9 +128,50 @@ public class DialogExample extends Application {
         //если результатом является нажание кнопки типа ОК то метка меняет текст на ОК
         if (result.get()==ButtonType.OK){
             label.setText("OK");
-
         }else {
-            label.setText("CANSEL");
+            label.setText("CANCEL");
         }
+    }
+
+    //метод. создающий диалог, который предполагает ввод пользователей строки текста
+    private void textInputDialog(){
+        TextInputDialog textInputDialog = new TextInputDialog();//создаем объект
+        textInputDialog.setTitle("Диалог ввода текста");
+        textInputDialog.setHeaderText("Окно ввода текста");
+        textInputDialog.setContentText("Введите наше имя:");
+        textInputDialog.getDialogPane().setMinSize(500, 200);
+
+        Optional<String> result = textInputDialog.showAndWait();//создаем специальный объект в котором будет содержаться результат
+        //метод реализации результата
+//        if (result.isPresent()){
+//            //если результат существует
+//            label.setText("Ваше имя: "+result.get());
+//        }else{
+//            label.setText("Имя не введено");
+//        }
+
+        label.setText(result.isPresent() ? "Ваше имя: "+result.get() : "Имя не введено");
+    }
+
+    //метод, создающий диалог, предоставляющий выбор пользователем из набора строк
+    private void choiceDialog(){
+        //набор строк задается ввиде списка
+        List<String> choiceList = new ArrayList<>();
+        choiceList.add("кошка");
+        choiceList.add("собака");
+        choiceList.add("попугай");
+
+        //для работы со списком используется класс choiceDialog
+        ChoiceDialog<String> choiceDialog = new ChoiceDialog<>("собака", choiceList);
+        //настройки окна
+        choiceDialog.setTitle("Диалог с выбором из списка");
+        choiceDialog.setHeaderText("Заголовок диалогового окна");
+        choiceDialog.setContentText("Выберите вид питомца:");
+        choiceDialog.getDialogPane().setMinSize(500, 200);
+
+        //создаем объект, содержащий результат выбора пользователя
+        Optional<String> result = choiceDialog.showAndWait();
+        //обрабатываем результат
+        label.setText(result.isPresent() ? "Ваш питомец: "+result.get() : "Вид питомца не выбран");
     }
 }
