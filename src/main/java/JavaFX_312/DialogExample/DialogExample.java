@@ -6,11 +6,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,44 +37,52 @@ public class DialogExample extends Application {
         label.setFont(Font.font(12));
 
         //кнопка для вывода окна сообщения
-        Button button1 = new Button("Информационное окно");
-        button1.setOnAction((ActionEvent e)-> {
+        Button btn1 = new Button("Информационное окно");
+        btn1.setOnAction((ActionEvent e)-> {
             informDialog1();
         });
 
-        Button button2 = new Button("Информационное окно без картинки");
-        button2.setOnAction((ActionEvent e)->{
+        Button btn2 = new Button("Информационное окно без картинки");
+        btn2.setOnAction((ActionEvent e)->{
             informDialog2();
         });
 
-        Button button3 = new Button("Информационное окно без заголовка");
-        button3.setOnAction((ActionEvent e)->{
+        Button btn3 = new Button("Информационное окно без заголовка");
+        btn3.setOnAction((ActionEvent e)->{
             informDialog3();
         });
 
-        Button button4 = new Button("Окно предупреждение");
-        button4.setOnAction((ActionEvent e)->{
+        Button btn4 = new Button("Окно предупреждение");
+        btn4.setOnAction((ActionEvent e)->{
             informDialog4();
         });
 
-        Button button5 = new Button("Окно соглашение");
-        button5.setOnAction((ActionEvent e)->{
+        Button btn5 = new Button("Окно соглашение");
+        btn5.setOnAction((ActionEvent e)->{
             informDialog5();
         });
 
-        Button button6 = new Button("Окно ввода текста");
-        button6.setOnAction(ActionEvent ->{
+        Button btn6 = new Button("Окно ввода текста");
+        btn6.setOnAction(ActionEvent ->{
             textInputDialog();
         });
 
-        Button button7 = new Button("Окно с выбором из списка");
-        button7.setOnAction(ActionEvent ->{
+        Button btn7 = new Button("Окно с выбором из списка");
+        btn7.setOnAction(ActionEvent ->{
             choiceDialog();
         });
 
-        vBox.getChildren().addAll(label, button1, button2, button3, button4, button5, button6, button7);
+        Button btn8 = new Button("Диалог выбора файла");
+        btn8.setOnAction(ActionEvent ->{
+            fileChooser(primaryStage);
+        });
 
-        primaryStage.setScene(new Scene(vBox, 700, 400));
+        Button btn9 = new Button("Диалог выбора цвета");
+        btn9.setOnAction(ActionEvent -> colorPicker());
+
+        vBox.getChildren().addAll(label, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9);
+
+        primaryStage.setScene(new Scene(vBox, 700, 500));
         primaryStage.show();
     }
 
@@ -173,5 +186,42 @@ public class DialogExample extends Application {
         Optional<String> result = choiceDialog.showAndWait();
         //обрабатываем результат
         label.setText(result.isPresent() ? "Ваш питомец: "+result.get() : "Вид питомца не выбран");
+    }
+
+    //метод для диалога выбора файла
+    private void fileChooser(Stage primaryStage){
+        FileChooser fileChooser = new FileChooser();//создаем объект
+        fileChooser.setTitle("Диалог выбора файла");//указываем заголовок
+        File file = fileChooser.showOpenDialog(primaryStage);//создаем объект класса File при этом в метод передается
+        // зависимое окно данного диалога. т.е. окно будет модельным и перекроет порождающее его окно в данном случае - главное окно приложения
+        label.setText(file.getAbsolutePath());//отображаем путь к файлу в тексте метки
+    }
+
+    //метод диалога выбора цвета
+    private void colorPicker(){
+        //в этом случае объект класса Stage нужно создавать самому т.е. тут мы создаем элемент для организации диалога
+        Stage stage = new Stage();
+        stage.setTitle("Окно выбора цвета");
+
+        //создаем панель
+        HBox hBox = new HBox(20);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(15));
+
+        //создаем элемент для выбора цвета - объект colorpicker
+        ColorPicker colorPicker = new ColorPicker();
+        colorPicker.setValue(Color.AZURE);//задаем цвет по умолчанию
+
+        //создаем текст который будет перекрашиваться
+        Text text = new Text("Проба выбора цвета");
+        text.setFont(Font.font("Arial", 20));
+        text.setFill(colorPicker.getValue());//задаем цвет текста и передаем в метод возвращенное значение колорпикера
+
+        colorPicker.setOnAction(event -> text.setFill(colorPicker.getValue()));//обрабатываем событие как у кнопки
+
+        //настраиваем панель и сцену
+        hBox.getChildren().addAll(colorPicker, text);//передаем элементы в панель
+        stage.setScene(new Scene(hBox, 600, 200));//передаем сцену с панелью в подмосток
+        stage.show();
     }
 }
