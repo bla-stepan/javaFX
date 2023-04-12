@@ -3,6 +3,7 @@ package JavaFX_213.MVCExample.view;
 //задача вида - организация отображения данных
 
 import JavaFX_213.MVCExample.model.ModelOrganization;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -23,6 +24,7 @@ public class ViewOrganisation {
     private Text orgName;//для вывода названия организации
     private Text orgHoliday;//вывод праздника
     private Text orgBonus;//вывод премиальных
+    private Text orgDate;
     private Font font = Font.font("Tahoma", FontWeight.NORMAL, 20);//для сокращения кода пишем шрифт
 
     //метод для сорздания вида отображения информации
@@ -44,7 +46,12 @@ public class ViewOrganisation {
         //название праздника
         orgHoliday = new Text();
         orgHoliday.setFont(font);
-        gridPane.add(orgHoliday, 0, 1, 2, 1);
+        gridPane.add(orgHoliday, 0, 1);
+
+        //дата праздника
+        orgDate = new Text();
+        orgDate.setFont(font);
+        gridPane.add(orgDate, 1, 1);
 
         //метка бонуса
         Label labelBonus = new Label("Премия");
@@ -58,21 +65,25 @@ public class ViewOrganisation {
     }
 
     //метод изменения тектовых полей
-    public void setInform() {
-        orgName.setText(org.getName());
-        orgHoliday.setText(org.getHoliday() + ". " + org.getDate().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));//приводим в нужный формат
-        orgBonus.setText(Double.toString(org.getBonus()));
+    public void addListenerOrg() {
+        Bindings.bindBidirectional(orgName.textProperty(), org.nameProperty());
+        orgHoliday.textProperty().bind(org.holidayProperty());
+        orgDate.textProperty().bind(org.dateProperty().asString());
+        //к свойству модели бонус добавляем слушателя (значение мвойства зависит от двух полей модели - премии и персонала)
+        //два свойства модели (бонус и персонал) со свойством вида orgBonus
+        org.bonusProperty().addListener((observable, oldValue, newValue) ->
+                orgBonus.setText(Double.toString(org.getBonusPerPersonal())));//вызываем метод расчета персональной премии модели getBonusPerPersonal
+        org.personalProperty().addListener((observable, oldValue, newValue) ->
+                orgBonus.setText(Double.toString(org.getBonusPerPersonal())));//вызываем метод модели для расчета премии
+        //назначение слушателей не приведет к отображению нужного значения в тексте вида
     }
 
     //метод загрузки орнанизации
     public void setOrganization(ModelOrganization org) {
         this.org = org;
-        //переделываем модель взаимодействия модели и вида с учетом свойств name и bonus
-        //объект вида делаем наблюдателем объектаМодели
-        Bindings.bindBidirectional(orgName.textProperty(), this.org.nameProperty());//вариант через статический метод
-        orgHoliday.setText(org.getHoliday() + ". " + org.getDate().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));//приводим в нужный формат
-        orgBonus.textProperty().bind(this.org.bonusProperty().asString());//объектВида.свойство.вызовМетодаBind(объектМоделиюсвойство). дополнительно переводим в строку т.к. bonus имеет тип Double
-        //setInform();//вызываем метод обработки элементов текста
+        addListenerOrg();
+        //для отображения изменения поля бонуса нужно бодавить строку в которой будет передано значения поля уже с изменениями
+        orgBonus.setText(Double.toString(org.getBonusPerPersonal()));
     }
 
     //Конструктор вида

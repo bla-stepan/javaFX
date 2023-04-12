@@ -3,6 +3,7 @@ package JavaFX_213.MVCExample.сontroller;
 import JavaFX_213.MVCExample.model.ModelOrganization;
 import JavaFX_213.MVCExample.view.ViewOrganisation;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -34,21 +35,18 @@ public class ControllerOrganization extends Application {
 
         //передаем в корневой контейнер панель с объектами, построенный при помощи метода объекта вида
         //передаем на панель объект вида, сепаратор-горизонтальный, блок редактирования с параметром объекта модели
-        vBox.getChildren().addAll(viewOrganisation.getGridPane(), new Separator(Orientation.HORIZONTAL), editBlock(organization));
+        vBox.getChildren().add(viewOrganisation.getGridPane());
 
         //создаем кнопку для управления взаимодействием модели и вида (НЕ ЗАГРУЖАЕТСЯ НА ПАНЕЛЬ)
-//        Button button = new Button("добавить премии");
+        Button button = new Button("Изменить данные");
 //        //настройки кнопки
 //        button.setPrefSize(150, 50);
-//        button.setOnAction(event -> {
-//            //вызываем метод МОДЕЛИ увеличения премии
-//            organization.incrementBonus();
-//            //вызываем метод ВИДА изменения элементов вида
-//            viewOrganisation.setInform();
-//        });
+        button.setOnAction(ActionEvent -> {
+            EditDialogOrganization editDialogOrganization = new EditDialogOrganization(organization);
+        });
 
         //передаем в корневой контейнер кнопку
-//        vBox.getChildren().add(button);
+        vBox.getChildren().add(button);
 
         //создание и настройк и визуализация сцены
         Scene scene = new Scene(vBox, 500, 500);
