@@ -86,19 +86,6 @@ public class PetMain extends Application {
         labelAge.setAlignment(Pos.TOP_RIGHT);
         editPane.add(labelAge, 0, 3);
 
-        Label labelYear = new Label("лет");
-        labelYear.setPrefSize(prefW/3, prefH);
-        labelYear.setAlignment(Pos.TOP_RIGHT);
-        editPane.add(labelYear, 1, 3);
-
-        Label labelMonth = new Label("мес.");
-        labelMonth.setPrefSize(prefW/3, prefH);
-        labelMonth.setAlignment(Pos.TOP_RIGHT);
-        editPane.add(labelMonth, 3, 3);
-
-//        Label labelPhoto = new Label("адрес фото:");
-//        editPane.add(labelPhoto, 0, 4);
-
         Label labelOwner = new Label("владелец:");
         labelOwner.setPrefSize(prefW/2, prefH);
         labelOwner.setAlignment(Pos.TOP_RIGHT);
@@ -136,7 +123,7 @@ public class PetMain extends Application {
             pet.setOwnerName(editOwner.getText());
             pet.setAgeYear(editAgeYear.getValue());
             pet.setAgeMonth(editAgeMonth.getValue());
-//            pet.setAge();
+            pet.setAge();
         });
         button.setPrefSize(prefW*2, prefH);
         button.setAlignment(Pos.CENTER);
