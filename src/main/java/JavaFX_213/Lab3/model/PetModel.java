@@ -109,7 +109,7 @@ public class PetModel {
             strY = "";
         } else if (getAgeYear() == 1) {
             strY = "1 год ";
-        } else if (getAgeYear() > 1 && getAgeYear() <= 5) {
+        } else if (getAgeYear() > 1 && getAgeYear() <= 4) {
             strY = getAgeYear().toString()+" года ";
         } else strY = getAgeYear().toString()+" лет ";
         String strM;
@@ -117,7 +117,7 @@ public class PetModel {
             strM = "";
         } else if (getAgeMonth() == 1) {
             strM = "1 месяц";
-        } else if (getAgeMonth() > 1 && getAgeYear() <= 5) {
+        } else if (getAgeMonth() > 1 && getAgeYear() <= 4) {
             strM = getAgeMonth().toString()+" месяца";
         } else strM = getAgeMonth().toString()+" месяцев";
         return strY+strM;

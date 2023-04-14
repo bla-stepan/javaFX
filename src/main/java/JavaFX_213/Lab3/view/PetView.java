@@ -24,9 +24,9 @@ public class PetView {
         //панель таблицы
         dataPane = new GridPane();
         dataPane.setAlignment(Pos.CENTER);
-        dataPane.setVgap(10);
-        dataPane.setHgap(10);
-        dataPane.setPadding(new Insets(10, 10, 10, 10));
+        dataPane.setVgap(5);
+        dataPane.setHgap(5);
+        dataPane.setPadding(new Insets(5, 5, 5, 5));
 
         //оглавление
         Label petTile = new Label("Информация о питомце");
@@ -76,7 +76,7 @@ public class PetView {
 
         age = new Text();
         age.setFont(font);
-        dataPane.add(age, 2, 4);
+        dataPane.add(age, 1, 4);
     }
 
     //метод назначения слушателей

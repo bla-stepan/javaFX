@@ -1,5 +1,6 @@
 package JavaFX_213.Lab3.controller;
 
+import JavaFX_213.Lab3.model.PetEditDialog;
 import JavaFX_213.Lab3.model.PetModel;
 import JavaFX_213.Lab3.view.PetView;
 import javafx.application.Application;
@@ -26,30 +27,28 @@ public class PetMain extends Application {
         PetModel petModel = new PetModel("собака", "Ника", "Аннушка", 2, 11);//, "images/toto.jpg");
 
         //создаем панель
-        HBox hBox = new HBox(10);
+        VBox hBox = new VBox(10);
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(5, 5, 5, 5));
 
         //создаем объект вида и передаем в него объект модели
         PetView petView = new PetView(petModel);
-        hBox.getChildren().addAll(editPane(petModel), new Separator(Orientation.VERTICAL), petView.getDataPane());//new Separator(Orientation.VERTICAL), передаем панель, полученную через метод объекта вида
+
 
         //кнопка для организации взаимодействия пользователя и модели
-//        Button button = new Button("+ 1 месяц");
-//        button.setPrefSize(300, 20);
-//        button.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
-//        button.setOnAction(event -> {
-//            petModel.editAge();//метод добавления 1 месяца к возрасту питомца
-//            petView.setInformation();//метод обновления данных
-//        });
-//        vBox.getChildren().add(button);
+        Button button = new Button("изменить данные");
+        button.setPrefSize(300, 20);
+        button.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
+        button.setOnAction(event -> {
+            PetEditDialog petEditDialog = new PetEditDialog(petModel);
+        });
+
+        hBox.getChildren().addAll(petView.getDataPane(), new Separator(Orientation.VERTICAL), button);//new Separator(Orientation.VERTICAL), передаем панель, полученную через метод объекта вида
 //
 //        Label label = new Label();
 //        TextField edit = new TextField();
 //        label.textProperty().bind(edit.textProperty());
-        //настраиваем сцену
-        Scene scene = new Scene(hBox, 500, 400);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(hBox));
         primaryStage.show();
     }
     private int prefW = 160, prefH = 10;
@@ -108,9 +107,6 @@ public class PetMain extends Application {
         Spinner<Integer> editAgeMonth = new Spinner<>(0, 11, 1);
         editAgeMonth.setPrefSize(prefW/2, prefH);
         editPane.add(editAgeMonth, 4, 3);
-
-//        TextField editPhoto = new TextField();
-//        editPane.add(editPhoto, 1, 4, 4, 1);
 
         TextField editOwner = new TextField();
         editOwner.setPrefSize(prefW, prefH);
