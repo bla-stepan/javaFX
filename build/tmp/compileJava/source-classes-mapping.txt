@@ -18,9 +18,11 @@ EnterAge/Main.java
  EnterAge.Main
 JavaFX_213/MVCExample/model/ModelOrganization.java
  JavaFX_213.MVCExample.model.ModelOrganization
-JavaFX_213/Lab3/controller/PetMain.java
- JavaFX_213.Lab3.controller.PetMain
 JavaFX_213/Lab3/model/PetModel.java
  JavaFX_213.Lab3.model.PetModel
 JavaFX_213/Lab3/view/PetView.java
  JavaFX_213.Lab3.view.PetView
+JavaFX_213/Lab3/controller/PetMain.java
+ JavaFX_213.Lab3.controller.PetMain
+JavaFX_213/Lab3/model/PetEditDialog.java
+ JavaFX_213.Lab3.model.PetEditDialog
