@@ -6,7 +6,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -26,20 +25,20 @@ public class Main extends Application {
     //внутренний вспомогательный класс
     private class Season {
         //поля класса
-        public String name, description;
+        public String name, description, picName;
         public Image image;
 
         //метод класса конструктор
         public Season(String name, String description) {
             this.name = name;//имя времени года
             this.description = description;//описание времени года
-            image = new Image(getClass().getResourceAsStream("images/" + name + ".jpg"));//название картинки соотвествует названию времен года
+            image = new Image(getClass().getResourceAsStream("MenuExample/images/" + name + ".jpg"));//название картинки соотвествует названию времен года
         }
     }
-
+//src/main/resources/MenuExample/images/Winter.jpg
     //хранилище данных (создаем массив объектов времени года)
     private final Season[] seasons = new Season[]{
-            new Season("Зима", "Когда приближается декабрь, в осеннем воздухе чувствуется дыхание зимы. +" +
+            new Season("Winter", "Когда приближается декабрь, в осеннем воздухе чувствуется дыхание зимы. +" +
                     "С каждым днем становится все холоднее." +
                     "От холода руки становятся холодными и негнущимися. Люди надевают теплую одежду." +
                     "И вдруг мягкие, белые снежинки падают густо и быстро, покрывая землю и крыши." +
@@ -49,19 +48,19 @@ public class Main extends Application {
                     "Реки и озера покрыты толстым слоем льда, и по ним можно кататься на коньках." +
                     "Зима - веселое время для детей. Они лепят снеговиков и играют в снежки." +
                     "В хорошую погоду дети и взрослые катаются на лыжах, коньках или скатываются с заснеженных холмов."),
-            new Season("Лето", "Яркое солнце согревает Землю. Когда стоит невыносимая жара, приятно выбраться за город и прогуляться по лесу." +
+            new Season("Summer", "Яркое солнце согревает Землю. Когда стоит невыносимая жара, приятно выбраться за город и прогуляться по лесу." +
                     "Поля зеленые. Летом природа окружает нас всевозможными цветами: веселыми одуванчиками, прекрасными розами, застенчивыми маргаритками." +
                     "Иногда летом погода становится слишком жаркой, и воздух становится душным. Тогда гроза обычно приносит облегчение." +
                     "Небо внезапно покрывается темными тучами, и слышны отдаленные раскаты грома. Позже за яркими вспышками молнии следуют раскаты грома, и начинается дождь." +
                     "После грозы воздух становится удивительно свежим, и очень часто мы можем увидеть красивый мост через небо, который называется радугой."),
-            new Season("Осень", "В сентябре лето уступает место осени. Дни становятся короче, а ночи длиннее. Солнечные лучи уже не такие яркие и теплые." +
+            new Season("Autumn", "В сентябре лето уступает место осени. Дни становятся короче, а ночи длиннее. Солнечные лучи уже не такие яркие и теплые." +
                     "Фруктовые деревья, которые не так давно цвели цветами, отяжелели от сочных яблок и груш. Ранняя осень - это период ярких красок, когда пейзаж становится золотисто-коричневым." +
                     "Днем в воздухе парит серебристая паутинка. Но, к сожалению, этот период хорошей погоды очень короток, и за ним следует глубокая осень." +
                     "Октябрь - лучший месяц для посадки деревьев. Это время года, когда деревья фантастические — желтые, красные, зеленые и коричневые. Деревья сбрасывают свои листья." +
                     "Теперь земля похожа на разноцветный ковер. Темнеет раньше, и часто небо заволакивают тяжелые тучи, принося дождь. Птицы не поют своих песен." +
                     "Они начинают уезжать в теплые страны." +
                     "Ноябрь - месяц туманов, дождей и снега. Животные надевают свои зимние пальто. Пейзаж становится довольно унылым.Природа медленно засыпает на зимуи"),
-            new Season("Весна", "Весна - чудесное время года. Светит теплое солнце, которое растопляет зимний лед и снег." +
+            new Season("Spring", "Весна - чудесное время года. Светит теплое солнце, которое растопляет зимний лед и снег." +
                     "Природа начинает пробуждаться." +
                     "Все деревья и кустарники покрыты маленькими бутонами, которые становятся все больше и больше и через некоторое время превращаются в молодые зеленые листья." +
                     "Тогда все начинает цвести, цветы повсюду. Мы слышим пение птиц и вдыхаем сладкий аромат цветущих деревьев." +
@@ -75,7 +74,7 @@ public class Main extends Application {
             new Font("Verdana Bold", 15),
             new Font("Arial Italic", 18),
             new Font("Tahoma", 20),
-            new Font("Times New Roman", 10)
+            new Font("Times New Roman", 10)//шрифт по умолчанию
     };
 
     //создаем элементы для вида
@@ -122,7 +121,7 @@ public class Main extends Application {
     private Menu createFileMenu(){
         //создаем обюъек меню
         Menu menuFile = new Menu("Файл");
-        MenuItem shuffle = new MenuItem("Сезон", new ImageView(new Image(getClass().getResourceAsStream("images/ssow.jpg"))));
+        MenuItem shuffle = new MenuItem("Сезон", new ImageView(new Image(getClass().getResourceAsStream("MenuExample/images/ssow.jpg"))));
         shuffle.setOnAction((ActionEvent t) -> {
             shuffle();//вызываем метод рандомного подбора времени года
             vBox.setVisible(true);//открываем видимость панели
@@ -156,6 +155,7 @@ public class Main extends Application {
                 node.setVisible(newValue);//устанавливается видимость в соотвествии с новым значением newValue
             }
         });
+        return checkMenuItem;
     }
 
     //метод создания меню вида
@@ -172,8 +172,49 @@ public class Main extends Application {
     private Menu createEditMenu(){
         //состоит из двух частей 1-я часть состоит из подменю из 3-х пунктов позволяющих переключить шрифт
 //        2-я часть - обычный пункт меню переключающий шрифт по умолчанию
-        Menu menuEdit = new Menu("Шрифты");
+        //dсе пункты меню связаны с эллементами сцены и связаня между собой
+        Menu menuEdit = new Menu("Шрифты");//основное меню
+        Menu menuFont = new Menu("Изменить шрифт");//подменю выбора шрифта
+        //создаем поля подменю для выбора шрифта
+        ToggleGroup group = new ToggleGroup();//создаем группу для полей (как для раиокнопок)
+        //создаем три поля(пункта) меню со шрифтами с помощью цикла
+        for (int i = 0; i < fonts.length; i++) {
+            RadioMenuItem radioMenuItem = new RadioMenuItem(fonts[i].getName());//создаем поле(пункт) задаем его имя именем шрифта
+            radioMenuItem.setToggleGroup(group);//задаем группу
+            radioMenuItem.setUserData(fonts[i]);//связываем с ресурсом - шрифт i-го элена массива шрифтов
+            menuFont.getItems().add(radioMenuItem);//загружаем пункт в подменю шрифтов
+        }
+        //создаем пункт меню (шрифт по умолчанию)
+        MenuItem defaultFontItem = new MenuItem("Шрифт по умолчанию");
+        //делаем пункт меню изначально не доступным т.к. изначально шрифт описания установлен поумолчанию
+        defaultFontItem.setDisable(true);
+        //Описываем действие
+        defaultFontItem.setOnAction((ActionEvent t)->{
+            description.setFont(fonts[3]);//сделали шрифт по умолчанию
+            //обращаемся к группе c радиопунктами, получаем ссылку на объект, содержащий параметр выделения (истина) и передаем параметр ложь
+            group.getSelectedToggle().setSelected(false);//убрали выделение в группе полей с о шрифтами
+            defaultFontItem.setDisable(true);//сделали поле недоступным
+        });
 
+        //описываем функциональность радиоменю шрифтов. обращзаемся в группу радиоменю и работаем со свойстов выделения
+        //добавляем слушателя к свойству выделения
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                //если чтото в группе выбрано
+                if (group.getSelectedToggle() !=null){
+                    //создаем шрифт = образаемся к группе получаем то что было выделено, извлекаем соотвествующие данные
+                    Font font = (Font) group.getSelectedToggle().getUserData();//получаем шрифт, соответствующий выделенному элементу
+                    description.setFont(font);//устанавливаем соотвествующий шрифт
+                    defaultFontItem.setDisable(false);//открываем доступ к полю (шрифт по умолчанию)
+                } else {
+                    defaultFontItem.setDisable(true);//если ничего не выбрано (шрифт по умолчанию) делаем недоступным
+                }
+            }
+        });
+
+        menuEdit.getItems().addAll(menuFont, defaultFontItem);
+        return menuEdit;
     }
 
     @Override
@@ -190,15 +231,15 @@ public class Main extends Application {
         menu.getMenus().addAll(createFileMenu(), createViewMenu(), createEditMenu());
 
         //дополнительное кнопочное меню (отдельный метод)
-        SplitMenuButton menuColor = createEditColorMenu();
+//        SplitMenuButton menuColor = createEditColorMenu();
 
         //контекстное меню (отдельный метод)
-        createCopyIngMenu();
+//        createCopyIngMenu();
 
         //размещаем элменты в конревом элементе
         borderPane.setTop(menu);
         borderPane.setCenter(vBox);
-        borderPane.setBottom(menuColor);
+//        borderPane.setBottom(menuColor);
 
         primaryStage.setScene(new Scene(borderPane, 600, 600));
         primaryStage.show();
