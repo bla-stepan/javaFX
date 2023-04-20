@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -118,7 +121,7 @@ public class Main extends Application {
     }
 
     //метода для создания меню файл
-    private Menu createFileMenu(){
+    private Menu createFileMenu() {
         //создаем обюъек меню
         Menu menuFile = new Menu("Файл");
         MenuItem shuffle = new MenuItem("Сезон", new ImageView(new Image(getClass().getResourceAsStream("/MenuExample/images/ssow.jpg"), 20, 20, false, false)));
@@ -131,7 +134,7 @@ public class Main extends Application {
         clean.setAccelerator(KeyCombination.keyCombination("Ctrl+x"));//назначаем комбинацию клавиш
         clean.setOnAction((ActionEvent c) -> {
             vBox.setVisible(false);//скрываем видимость панели
-            });
+        });
 
         MenuItem exit = new MenuItem("Выйти");
         exit.setOnAction((ActionEvent e) -> {
@@ -143,7 +146,7 @@ public class Main extends Application {
     }
 
     //метод для управления видом элементов на панели (параметры заголовок пункта меню и узел сцены к которому он будет привязан
-    private CheckMenuItem createViewMenuItem(String nameChackMenu, final Node node){
+    private CheckMenuItem createViewMenuItem(String nameChackMenu, final Node node) {
         //создаем поле-флажок
         CheckMenuItem checkMenuItem = new CheckMenuItem(nameChackMenu);
         checkMenuItem.setSelected(true);//устанавлимваем включенным
@@ -159,7 +162,7 @@ public class Main extends Application {
     }
 
     //метод создания меню вида
-    private Menu createViewMenu(){
+    private Menu createViewMenu() {
         //меню содержит поля-флажки которые будут управлять видимостью элементов на панели
         Menu menuView = new Menu("Вид");
         CheckMenuItem titleView = createViewMenuItem("Заголовок", name);
@@ -169,7 +172,7 @@ public class Main extends Application {
         return menuView;
     }
 
-    private Menu createEditMenu(){
+    private Menu createEditMenu() {
         //состоит из двух частей 1-я часть состоит из подменю из 3-х пунктов позволяющих переключить шрифт
 //        2-я часть - обычный пункт меню переключающий шрифт по умолчанию
         //dсе пункты меню связаны с эллементами сцены и связаня между собой
@@ -189,7 +192,7 @@ public class Main extends Application {
         //делаем пункт меню изначально не доступным т.к. изначально шрифт описания установлен поумолчанию
         defaultFontItem.setDisable(true);
         //Описываем действие
-        defaultFontItem.setOnAction((ActionEvent t)->{
+        defaultFontItem.setOnAction((ActionEvent t) -> {
             description.setFont(fonts[3]);//сделали шрифт по умолчанию
             //обращаемся к группе c радиопунктами, получаем ссылку на объект, содержащий параметр выделения (истина) и передаем параметр ложь
             group.getSelectedToggle().setSelected(false);//убрали выделение в группе полей с о шрифтами
@@ -202,7 +205,7 @@ public class Main extends Application {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 //если чтото в группе выбрано
-                if (group.getSelectedToggle() !=null){
+                if (group.getSelectedToggle() != null) {
                     //создаем шрифт = образаемся к группе получаем то что было выделено, извлекаем соотвествующие данные
                     Font font = (Font) group.getSelectedToggle().getUserData();//получаем шрифт, соответствующий выделенному элементу
                     description.setFont(font);//устанавливаем соотвествующий шрифт
@@ -215,6 +218,60 @@ public class Main extends Application {
 
         menuEdit.getItems().addAll(menuFont, defaultFontItem);
         return menuEdit;
+    }
+
+    //кнопочное меню для изменения цвета панели
+    private SplitMenuButton createEditColorMenu() {
+        //создаем элементы поля с цветами
+        MenuItem red = new MenuItem("Сереневый");
+        red.setOnAction((ActionEvent c) -> {
+            vBox.setBackground(new Background(new BackgroundFill(Color.PLUM, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+
+        MenuItem blue = new MenuItem("Бежевый");
+        blue.setOnAction((ActionEvent c) -> {
+            vBox.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+
+        MenuItem green = new MenuItem("Солнечный");
+        green.setOnAction((ActionEvent c) -> {
+            vBox.setBackground(new Background(new BackgroundFill(Color.KHAKI, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+
+        MenuItem yellow = new MenuItem("Золотой");
+        yellow.setOnAction((ActionEvent c) -> {
+            vBox.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+        //создаем кнопочное меню и передаем в него созданные элементы-поля с цветами
+        SplitMenuButton colorMenu = new SplitMenuButton(red, blue, green, yellow);
+        colorMenu.setText("Выбрать цвет");
+        colorMenu.setOnAction((ActionEvent c) -> {
+            vBox.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+        return colorMenu;
+    }
+
+    //метод создания контекстного меню
+    private ContextMenu createCopyIngMenu(){
+        ContextMenu contextMenu = new ContextMenu();
+        //создаем элементы меню
+        MenuItem copy = new MenuItem("Скопировать");
+        copy.setOnAction((ActionEvent s) -> {
+            Clipboard clipboard = Clipboard.getSystemClipboard();//создаем бувер обмена ОС создаем буфер обмена с ОС
+            ClipboardContent content = new ClipboardContent();//создаем контент буфера обмена
+            content.putImage(pic.getImage());//контентом буфера обмена будет картинка
+            clipboard.setContent(content);//размещяем контент в буфере обмена
+        });
+        //добавляем в контекстное меню один элемент
+        contextMenu.getItems().add(copy);
+        //ВНИМАНИЕ!!! привязываем контектсное меню к одному из элементов поля
+        //у элемента картнки вызываем метод setOnContextMenuRequested в который передаем событие ContextMenuEvent и
+        //в описании события указываем коор
+        pic.setOnContextMenuRequested((ContextMenuEvent e) ->{
+            //вызываем у события е метод show, в месте с координатами полученными от события е.
+            contextMenu.show(pic, e.getScreenX(), e.getScreenY());
+        });
+        return  contextMenu;
     }
 
     @Override
@@ -231,15 +288,15 @@ public class Main extends Application {
         menu.getMenus().addAll(createFileMenu(), createViewMenu(), createEditMenu());
 
         //дополнительное кнопочное меню (отдельный метод)
-//        SplitMenuButton menuColor = createEditColorMenu();
+        SplitMenuButton menuColor = createEditColorMenu();
 
         //контекстное меню (отдельный метод)
-//        createCopyIngMenu();
+        createCopyIngMenu();
 
         //размещаем элменты в конревом элементе
         borderPane.setTop(menu);
         borderPane.setCenter(vBox);
-//        borderPane.setBottom(menuColor);
+        borderPane.setBottom(menuColor);
 
         primaryStage.setScene(new Scene(borderPane, 600, 600));
         primaryStage.show();
