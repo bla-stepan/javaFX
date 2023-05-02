@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 public class PetModel {
     private StringProperty type, nickName, ownerName, age;
     private IntegerProperty ageMonth, ageYear;
+    private Image photo;
 
     //Конструктор
     public PetModel(String type, String nickName, String ownerName, int ageMonth, int ageYear) {//, String photoName) {
@@ -14,7 +15,7 @@ public class PetModel {
         setOwnerName(ownerName);//this.ownerName = ownerName;
         setAgeMonth(ageMonth);//this.ageYears = ageYears;
         setAgeYear(ageYear);//this.ageMonth = ageMonth;
-//        this.photoName = photoName;
+        photo = new Image(getClass().getResourceAsStream("/Lab3/images/"+nickName+".jpg"));
     }
 
     //методы Property для свойст

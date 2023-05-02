@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -17,6 +18,7 @@ public class PetView {
     private PetModel pet;
     private GridPane dataPane;//контейнер
     private Text type, nickname, ownerName, age, ageYear, ageMonth;
+    private Image photo;
     private Font font = Font.font("Arial", FontWeight.NORMAL, 15);//для сокращения кода пишем шрифт
     private int prefW = 180, prefH = 10;
 
@@ -59,6 +61,7 @@ public class PetView {
         dataPane.add(labelAge, 0, 4);
 
         //отображение информации о питомце
+//        photo = new Image();
         type = new Text();
         type.setFont(font);
         dataPane.add(type, 1, 1);

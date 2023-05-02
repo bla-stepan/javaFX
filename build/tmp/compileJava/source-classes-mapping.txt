@@ -1,5 +1,5 @@
-JavaFX_213/Lab3/controller/PetMain.java
- JavaFX_213.Lab3.controller.PetMain
+JavaFX_213/MVCExample/view/ViewOrganisation.java
+ JavaFX_213.MVCExample.view.ViewOrganisation
 Lab/LabMain.java
  Lab.LabMain
 JavaFXChartExample/ChartExample.java
@@ -24,10 +24,10 @@ EnterAge/Main.java
  EnterAge.Main
 JavaFX_213/Lab3/view/PetView.java
  JavaFX_213.Lab3.view.PetView
-JavaFX_213/MVCExample/view/ViewOrganisation.java
- JavaFX_213.MVCExample.view.ViewOrganisation
 JavaFX_322/MenuExample/Main.java
  JavaFX_322.MenuExample.Main
  JavaFX_322.MenuExample.Main$1
  JavaFX_322.MenuExample.Main$2
  JavaFX_322.MenuExample.Main$Season
+JavaFX_213/Lab3/controller/PetMain.java
+ JavaFX_213.Lab3.controller.PetMain
