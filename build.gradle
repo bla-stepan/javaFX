@@ -15,14 +15,15 @@ sourceCompatibility = 11
 //mainClassName = 'JavaFXChartExample.ChartExample'
 //mainClassName = 'Lab2.WeatherCalendar'
 //mainClassName = 'JavaFX_213.MVCExample.сontroller.ControllerOrganization'
-mainClassName = 'JavaFX_213.Lab3.controller.PetMain'//лабораторные
+//mainClassName = 'JavaFX_213.Lab3.controller.PetMain'//лабораторные
 //mainClassName = 'JavaFX_312.DialogExample.DialogExample'
 //mainClassName = 'JavaFX_322.MenuExample.Main'
+mainClassName = 'JavaFX_332.MouseEvent.MouseEventExample'
 repositories {
     mavenCentral()
 }
 
-javafx{
+javafx {
     version = 13
     modules = ['javafx.controls', 'javafx.fxml']
 }
@@ -38,6 +39,6 @@ test {
 }
 
 compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile){
+tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
