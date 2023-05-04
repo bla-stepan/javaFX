@@ -1,14 +1,13 @@
 package JavaFX_332.MouseEvent;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -31,8 +30,9 @@ public class MouseEventExample extends Application {
     public void start(Stage primaryStage) throws Exception {
         Tab simpleEvent = new Tab("Simple Event", createPaneSimpleEvent());
         Tab eventHandler = new Tab("Event Handler", createPaneEventHandler());
+        Tab eventRout = new Tab("Источники и цели событий", createPaneEventRout());
 
-        TabPane root = new TabPane(simpleEvent, eventHandler);
+        TabPane root = new TabPane(simpleEvent, eventHandler, eventRout);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -168,6 +168,7 @@ public class MouseEventExample extends Application {
             "    -fx-border-color: black;\n" +
             "    -fx-border-style: dashed;\n" +
             "    -fx-border-width: 2;";
+
     //метод обрабатывает все типы события с помощью универсального метода addEventHandler
     private void addTranslate(Label node) {
         //добавляем обработчик события мыши (любого) - по наступлении события -> перемещяется фокус
@@ -206,21 +207,73 @@ public class MouseEventExample extends Application {
         //обработка нажатия мыши
         node.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent me) -> {
             //проверяем количество щелчков
-            if (me.getClickCount()==2){
+            if (me.getClickCount() == 2) {
                 node.setStyle(style);
             }
         });
 
         //обработка события клавиатуры
-        node.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent ke)->{
+        node.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
             //проверяем нажатие клавиши "A"
-            if (ke.getCode()==KeyCode.A){
+            if (ke.getCode() == KeyCode.A) {
                 node.setText("Нажата клавиша А");
             }
-            if (ke.getCode()==KeyCode.A && ke.isShiftDown()){
+            if (ke.getCode() == KeyCode.A && ke.isShiftDown()) {
                 node.setText("Нажаты Shift+A");
             }
             System.out.println(ke.getText());
         });
     }
+
+    //Рассмотрим пример перехвата события на этапе фильтрации и передачи события для обработки другому элементу сцены.
+    private VBox createPaneEventRout() {
+        Label labelSource = new Label("Источник события");
+        Label labelTarget = new Label("Цель события");
+        Button btn = new Button("Инф. об источнике и цели события");
+        btn.setOnAction(event -> {
+            labelSource.setText("Источник события: " + event.getSource().toString());
+            labelTarget.setText("Цель события " + event.getTarget().toString());
+        });
+        Button btn1 = new Button("Кнопка-1");
+        Button btn2 = new Button("Кнопка-2");
+
+        //кнопка-1 передает обработку события кнопке-2
+        btn1.setOnAction(event -> Event.fireEvent(btn2, event));
+        btn2.setOnAction(event -> {
+            labelSource.setText("Источник события: " + event.getSource().toString());
+            labelTarget.setText("Цель события " + event.getTarget().toString());
+        });
+
+        //перехват события (перехват осуществляется между кнопной-3 и контейнером vBox
+        Button btn3 = new Button("Кнопка-3");
+        btn3.setOnAction(event -> {
+            labelSource.setText("Источник события: " + event.getSource().toString());
+            labelTarget.setText("Цель события " + event.getTarget().toString());
+        });
+        //обработка собития происходит в контейнере на этапе фильтрации событий
+        VBox box = new VBox(btn3);
+        box.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-color: blue;");
+        box.setAlignment(Pos.CENTER);
+        //при перемещении события от корневого элемента кнопки на пути попадает контейнер box и вем присутствует
+        //обработчик события на этапе фильтрации
+        box.addEventFilter(ActionEvent.ACTION, event -> {
+            labelSource.setText("Источник события: " + event.getSource().toString());
+            labelTarget.setText("Цель события " + event.getTarget().toString());
+            //для того чтобы события не проходило дальше надо прописать для события его остановку
+            event.consume();
+        });
+        VBox pane = new VBox();
+        pane.setStyle("-fx-font-size: 24");
+        pane.setPrefSize(800, 600);
+        pane.setAlignment(Pos.CENTER);
+        pane.getChildren().addAll(labelSource, labelTarget, btn, btn1, btn2, btn3);
+
+        return pane;
+    }
+
+
 }
+
