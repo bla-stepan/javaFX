@@ -229,26 +229,23 @@ public class MouseEventExample extends Application {
     private VBox createPaneEventRout() {
         Label labelSource = new Label("Источник события");
         Label labelTarget = new Label("Цель события");
-        Button btn = new Button("Инф. об источнике и цели события");
+        Button btn = new Button("ИНФО");
         btn.setOnAction(event -> {
-            labelSource.setText("Источник события: " + event.getSource().toString());
-            labelTarget.setText("Цель события " + event.getTarget().toString());
+            labelText(event, labelSource, labelTarget);
         });
+
         Button btn1 = new Button("Кнопка-1");
         Button btn2 = new Button("Кнопка-2");
-
         //кнопка-1 передает обработку события кнопке-2
         btn1.setOnAction(event -> Event.fireEvent(btn2, event));
         btn2.setOnAction(event -> {
-            labelSource.setText("Источник события: " + event.getSource().toString());
-            labelTarget.setText("Цель события " + event.getTarget().toString());
+            labelText(event, labelSource, labelTarget);
         });
 
         //перехват события (перехват осуществляется между кнопной-3 и контейнером vBox
         Button btn3 = new Button("Кнопка-3");
         btn3.setOnAction(event -> {
-            labelSource.setText("Источник события: " + event.getSource().toString());
-            labelTarget.setText("Цель события " + event.getTarget().toString());
+            labelText(event, labelSource, labelTarget);
         });
         //обработка собития происходит в контейнере на этапе фильтрации событий
         VBox box = new VBox(btn3);
@@ -260,20 +257,23 @@ public class MouseEventExample extends Application {
         //при перемещении события от корневого элемента кнопки на пути попадает контейнер box и вем присутствует
         //обработчик события на этапе фильтрации
         box.addEventFilter(ActionEvent.ACTION, event -> {
-            labelSource.setText("Источник события: " + event.getSource().toString());
-            labelTarget.setText("Цель события " + event.getTarget().toString());
+            labelText(event, labelSource, labelTarget);
             //для того чтобы события не проходило дальше надо прописать для события его остановку
             event.consume();
         });
-        VBox pane = new VBox();
+
+        VBox pane = new VBox(20);
         pane.setStyle("-fx-font-size: 24");
-        pane.setPrefSize(800, 600);
+        pane.setPrefSize(800, 800);
         pane.setAlignment(Pos.CENTER);
-        pane.getChildren().addAll(labelSource, labelTarget, btn, btn1, btn2, btn3);
+        pane.getChildren().addAll(labelSource, labelTarget, btn, btn1, btn2, box);
 
         return pane;
     }
 
-
+    private void labelText(Event event, Label source, Label target) {
+        source.setText("Источник события: " + event.getSource().toString());
+        target.setText("Цель события: " + event.getTarget().toString());
+    }
 }
 
