@@ -6,9 +6,14 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -21,6 +26,7 @@ public class PetView {
     private Image photo;
     private Font font = Font.font("Arial", FontWeight.NORMAL, 15);//для сокращения кода пишем шрифт
     private int prefW = 180, prefH = 10;
+    private Text[] nodes;
 
     public void createPane() {
         //панель таблицы
@@ -61,13 +67,29 @@ public class PetView {
         dataPane.add(labelAge, 0, 4);
 
         //отображение информации о питомце
-//        photo = new Image();
         type = new Text();
         type.setFont(font);
+        //обработка события мыши для текста (кличка)
+        type.setOnMouseEntered(MouseEvent -> {
+            type.setFill(Color.RED);
+        });
+        type.setOnMouseExited(MouseEvent -> {
+            type.setFill(Color.BLACK);
+        });
+
         dataPane.add(type, 1, 1);
 
         nickname = new Text();
         nickname.setFont(font);
+
+        //обработка события мыши для текста (кличка)
+        nickname.setOnMouseEntered(MouseEvent -> {
+            nickname.setFill(Color.RED);
+        });
+        nickname.setOnMouseExited(MouseEvent -> {
+            nickname.setFill(Color.BLACK);
+        });
+
         dataPane.add(nickname, 1, 2);
 
         ownerName = new Text();
@@ -80,6 +102,29 @@ public class PetView {
         age = new Text();
         age.setFont(font);
         dataPane.add(age, 1, 4);
+
+        keyEvent(dataPane);//ПРОБЛЕМА!!!
+    }
+    private void keyEvent(GridPane pane){
+        pane.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
+            if (ke.getCode() == KeyCode.L && ke.isControlDown()) {
+                textSize(ke.getCode());
+            }
+            if (ke.getCode() == KeyCode.S && ke.isControlDown()) {
+                textSize(ke.getCode());
+            }
+        });
+    }
+
+    private void textSize(KeyCode keyCode) {
+        int point;
+        if (keyCode == KeyCode.L) {
+            point = 1;
+        } else point = -1;
+        nodes = new Text[]{type, nickname, ownerName, age};
+        for (int i = 0; i < nodes.length; i++) {
+            nodes[i].setFont(Font.font((int) nodes[i].getFont().getSize() + point));
+        }
     }
 
     //метод назначения слушателей
@@ -96,14 +141,14 @@ public class PetView {
     }
 
     //метод загрузки питомца
-    public void setPet(PetModel pet){
-        this.pet=pet;
+    public void setPet(PetModel pet) {
+        this.pet = pet;
         addListenerPet();//слушатели
         age.setText(pet.getStrAge());//обновление данных возраста
     }
 
     //конструктор вида
-    public PetView(PetModel pet){
+    public PetView(PetModel pet) {
         //метод создания панели
         createPane();
         //метод изменения данных
@@ -111,7 +156,7 @@ public class PetView {
     }
 
     //метод, возвращающий панель
-    public GridPane getDataPane(){
+    public GridPane getDataPane() {
         return dataPane;
     }
 }
