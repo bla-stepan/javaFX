@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -81,6 +82,8 @@ public class PetView {
 
         nickname = new Text();
         nickname.setFont(font);
+        nickname.setFocusTraversable(true);
+        keyEvent(nickname);
 
         //обработка события мыши для текста (кличка)
         nickname.setOnMouseEntered(MouseEvent -> {
@@ -102,29 +105,20 @@ public class PetView {
         age = new Text();
         age.setFont(font);
         dataPane.add(age, 1, 4);
-
-        keyEvent(dataPane);//ПРОБЛЕМА!!!
     }
-    private void keyEvent(GridPane pane){
-        pane.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
+
+    private void keyEvent(Text node){
+        node.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent ke) -> {
             if (ke.getCode() == KeyCode.L && ke.isControlDown()) {
-                textSize(ke.getCode());
+//                textSize(ke.getCode());
+                node.setFont(Font.font(node.getFont().getSize()+0.5));
             }
             if (ke.getCode() == KeyCode.S && ke.isControlDown()) {
-                textSize(ke.getCode());
+                if (node.getFont().getSize() - 0.5 > 0) {
+                    node.setFont(Font.font(node.getFont().getSize() - 0.5));
+                }
             }
         });
-    }
-
-    private void textSize(KeyCode keyCode) {
-        int point;
-        if (keyCode == KeyCode.L) {
-            point = 1;
-        } else point = -1;
-        nodes = new Text[]{type, nickname, ownerName, age};
-        for (int i = 0; i < nodes.length; i++) {
-            nodes[i].setFont(Font.font((int) nodes[i].getFont().getSize() + point));
-        }
     }
 
     //метод назначения слушателей

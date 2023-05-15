@@ -1,6 +1,6 @@
 package JavaFX_213.Lab3.controller;
 
-import JavaFX_213.Lab3.model.PetEditDialog;
+import JavaFX_213.Lab3.model.petEditDialog;
 import JavaFX_213.Lab3.model.PetModel;
 import JavaFX_213.Lab3.view.PetView;
 import javafx.application.Application;
@@ -16,15 +16,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import jdk.javadoc.doclet.Doclet;
 
 import java.util.Optional;
 
 public class PetMain extends Application {
     PetModel petModel = new PetModel("собака", "Тотошка", "Аннушка", 2, 11);//, "images/Тотошка.jpg");
-    private BorderPane borderPane;
+    private BorderPane rootPane;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -34,7 +32,7 @@ public class PetMain extends Application {
         //создаем объект класса Pet
 
 
-        borderPane = new BorderPane();//создаем панель (5 областей)
+        rootPane = new BorderPane();//создаем панель (5 областей)
 
         createSceneElement(petModel);//создаем панель отображения данных о зверушке
 
@@ -43,13 +41,13 @@ public class PetMain extends Application {
         //загружаем элементы в меню
         menu.getMenus().addAll(createMainMenu(), createColorMenu(), createInformMenu());
 
-        borderPane.setTop(menu);
-        borderPane.setCenter(createSceneElement(petModel));
+        rootPane.setTop(menu);
+        rootPane.setCenter(createSceneElement(petModel));
 
         //контекстное меню
         contextMenu();
 
-        primaryStage.setScene(new Scene(borderPane));
+        primaryStage.setScene(new Scene(rootPane));
         primaryStage.show();
     }
 
@@ -57,7 +55,7 @@ public class PetMain extends Application {
         Menu menuMain = new Menu("Главное");
         MenuItem editData = new MenuItem("Измеить данные в окне");
         editData.setOnAction((ActionEvent d) -> {
-            new PetEditDialog(petModel);
+            new petEditDialog(petModel);
         });
 
         MenuItem exit = new MenuItem("Выйти");
@@ -111,25 +109,25 @@ public class PetMain extends Application {
         Menu menuColor = new Menu("Вид");
         MenuItem green = new MenuItem("Зеленый");
         green.setOnAction((ActionEvent c) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(145, 238, 145), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(145, 238, 145), CornerRadii.EMPTY, Insets.EMPTY)));
         });
         MenuItem purple = new MenuItem("Фиолетовый");
         purple.setOnAction((ActionEvent c1) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(238, 130, 238), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(238, 130, 238), CornerRadii.EMPTY, Insets.EMPTY)));
 
         });
         MenuItem yellow = new MenuItem("Жёлтый");
         yellow.setOnAction((ActionEvent c2) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 222, 179), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 222, 179), CornerRadii.EMPTY, Insets.EMPTY)));
         });
         MenuItem orange = new MenuItem("Оранжевый");
         orange.setOnAction((ActionEvent c3) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(210, 180, 140), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(210, 180, 140), CornerRadii.EMPTY, Insets.EMPTY)));
 
         });
         MenuItem blue = new MenuItem("Синий");
         blue.setOnAction((ActionEvent) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(106, 90, 205), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(106, 90, 205), CornerRadii.EMPTY, Insets.EMPTY)));
         });
 
         menuColor.getItems().addAll(green, purple, yellow, orange, blue);
@@ -141,31 +139,31 @@ public class PetMain extends Application {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem green = new MenuItem("Зеленый");
         green.setOnAction((ActionEvent c) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(149, 238, 145), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(149, 238, 145), CornerRadii.EMPTY, Insets.EMPTY)));
         });
         MenuItem purple = new MenuItem("Фиолетовый");
         purple.setOnAction((ActionEvent c1) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 130, 238), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 130, 238), CornerRadii.EMPTY, Insets.EMPTY)));
 
         });
         MenuItem yellow = new MenuItem("Жёлтый");
         yellow.setOnAction((ActionEvent c2) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 210, 110), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(245, 210, 110), CornerRadii.EMPTY, Insets.EMPTY)));
         });
         MenuItem orange = new MenuItem("Оранжевый");
         orange.setOnAction((ActionEvent c3) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(200, 100, 140), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(200, 100, 140), CornerRadii.EMPTY, Insets.EMPTY)));
 
         });
         MenuItem blue = new MenuItem("Синий");
         blue.setOnAction((ActionEvent) -> {
-            borderPane.setBackground(new Background(new BackgroundFill(Color.rgb(180, 190, 205), CornerRadii.EMPTY, Insets.EMPTY)));
+            rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(180, 190, 205), CornerRadii.EMPTY, Insets.EMPTY)));
         });
 
         contextMenu.getItems().addAll(green, yellow, blue, orange, purple);
 
-        borderPane.setOnContextMenuRequested((ContextMenuEvent c)->{
-            contextMenu.show(borderPane, c.getScreenX(), c.getScreenY());
+        rootPane.setOnContextMenuRequested((ContextMenuEvent c)->{
+            contextMenu.show(rootPane, c.getScreenX(), c.getScreenY());
         });
         return contextMenu;
     }
@@ -184,18 +182,17 @@ public class PetMain extends Application {
         button.setPrefSize(300, 20);
         button.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
         button.setOnAction(event -> {
-            PetEditDialog petEditDialog = new PetEditDialog(petModel);
+            petEditDialog petEditDialog = new petEditDialog(petModel);
         });
 
         hBox.getChildren().addAll(petView.getDataPane(), new Separator(Orientation.VERTICAL), button);//new Separator(Orientation.VERTICAL), передаем панель, полученную через метод объекта вида
         return hBox;
     }
 
-    private int prefW = 160, prefH = 10;
+    private int PREF_W = 160, PREF_H = 10;
 
     public GridPane editPane(PetModel pet) {
 
-//        VBox editPane = new VBox();
         GridPane editPane = new GridPane();
         editPane.setAlignment(Pos.CENTER);
         editPane.setVgap(10);
@@ -206,51 +203,51 @@ public class PetMain extends Application {
         labelTitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
         GridPane.setHalignment(labelTitle, HPos.CENTER);
         GridPane.setValignment(labelTitle, VPos.TOP);
-        labelTitle.setMaxWidth(prefW);
+        labelTitle.setMaxWidth(PREF_W);
         labelTitle.setWrapText(true);
         editPane.add(labelTitle, 0, 0, 5, 1);
 
         //метки
         Label labelType = new Label("тип:");
-        labelType.setPrefSize(prefW / 2, prefH);
+        labelType.setPrefSize(PREF_W / 2, PREF_H);
         labelType.setAlignment(Pos.TOP_RIGHT);
         editPane.add(labelType, 0, 1);
 
         Label labelName = new Label("кличка:");
-        labelName.setPrefSize(prefW / 2, prefH);
+        labelName.setPrefSize(PREF_W / 2, PREF_H);
         labelName.setAlignment(Pos.TOP_RIGHT);
         editPane.add(labelName, 0, 2);
 
         Label labelAge = new Label("возраст:");
-        labelAge.setPrefSize(prefW / 2, prefH);
+        labelAge.setPrefSize(PREF_W / 2, PREF_H);
         labelAge.setAlignment(Pos.TOP_RIGHT);
         editPane.add(labelAge, 0, 3);
 
         Label labelOwner = new Label("владелец:");
-        labelOwner.setPrefSize(prefW / 2, prefH);
+        labelOwner.setPrefSize(PREF_W / 2, PREF_H);
         labelOwner.setAlignment(Pos.TOP_RIGHT);
         editPane.add(labelOwner, 0, 4);
 
         //формы
         ObservableList<String> options = FXCollections.observableArrayList("Кошка", "Собака", "Птица");
         ComboBox editType = new ComboBox<>(options);
-        editType.setPrefSize(prefW + 45, prefH);
+        editType.setPrefSize(PREF_W + 45, PREF_H);
         editPane.add(editType, 1, 1, 4, 1);
 
         TextField editNickName = new TextField();
-        editNickName.setPrefSize(prefW, prefH);
+        editNickName.setPrefSize(PREF_W, PREF_H);
         editPane.add(editNickName, 1, 2, 4, 1);
 
         Spinner<Integer> editAgeYear = new Spinner<>(0, 50, 1);
-        editAgeYear.setPrefSize(prefW / 2, prefH);
+        editAgeYear.setPrefSize(PREF_W / 2, PREF_H);
         editPane.add(editAgeYear, 2, 3);
 
         Spinner<Integer> editAgeMonth = new Spinner<>(0, 11, 1);
-        editAgeMonth.setPrefSize(prefW / 2, prefH);
+        editAgeMonth.setPrefSize(PREF_W / 2, PREF_H);
         editPane.add(editAgeMonth, 4, 3);
 
         TextField editOwner = new TextField();
-        editOwner.setPrefSize(prefW, prefH);
+        editOwner.setPrefSize(PREF_W, PREF_H);
         editPane.add(editOwner, 1, 4, 4, 1);
 
         Button button = new Button("сохранить");
@@ -262,7 +259,7 @@ public class PetMain extends Application {
             pet.setAgeMonth(editAgeMonth.getValue());
             pet.setAge();
         });
-        button.setPrefSize(prefW * 2, prefH);
+        button.setPrefSize(PREF_W * 2, PREF_H);
         button.setAlignment(Pos.CENTER);
         editPane.add(button, 0, 6, 5, 1);
 
