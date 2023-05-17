@@ -19,7 +19,9 @@ sourceCompatibility = 11
 //mainClassName = 'JavaFX_312.DialogExample.DialogExample'
 //mainClassName = 'JavaFX_322.MenuExample.Main'
 //mainClassName = 'JavaFX_332.MouseEvent.MouseEventExample'
-mainClassName = 'JavaFX_412.TableSimple.Main.Main'
+//mainClassName = 'JavaFX_412.TableSimple.Main.Main'
+mainClassName = 'JavaFX_413.TreeViewExample.view.Main'
+
 repositories {
     mavenCentral()
 }

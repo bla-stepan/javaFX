@@ -54,7 +54,7 @@ public class Main extends Application {
             new Organization("Водоканал", "Федя", 1042),
             new Organization("ИвестКонсалт", "Анна", 169)
     );
-
+    //метод создания таблицы
     private void createTable() {
         //создаем и настраиваем каждый столбец таблицы
         TableColumn nameCol = new TableColumn("Название организации");//создаем обхект - столбец
@@ -97,7 +97,7 @@ public class Main extends Application {
         //создаем кнопку
         final Button addButton = new Button("ввод");
         addButton.setOnAction((ActionEvent ae) -> {
-            //добавляется новый объект в список организаций
+            //добавляется новый объект в список организаций (без проверки ввода данных)
             organizationsList.add(new Organization(
                     addName.getText(),
                     addBossName.getText(),
