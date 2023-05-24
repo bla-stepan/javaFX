@@ -21,7 +21,6 @@ import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 
 
-
 public class Main extends Application {
 
     @Override
@@ -29,7 +28,7 @@ public class Main extends Application {
 
         Label label = new Label("Список организаций");
 
-        createTable();//пример создания таблицы
+//        createTable();//пример создания таблицы
         createTableEditable();//пример создания таблицы с гибкими настройками
 
         VBox root = new VBox();
@@ -128,15 +127,20 @@ public class Main extends Application {
         bossNameCol.setCellValueFactory(new PropertyValueFactory<Organization, String>("bossName"));
         bossNameCol.setCellFactory(TextFieldTableCell.forTableColumn());//текс может быть полем для редактирования
         //добавляем обработку события редактирования
-        bossNameCol.setOnEditCommit(
+        bossNameCol.setOnEditCommit(//передаем реализацию интерфейса EventHandler, описывающего обработку события редактирования ячейки TabColumn.CellEditEvent
                 new EventHandler<TableColumn.CellEditEvent<Organization, String>>() {
+                    //в методе handle описываем как определить элемент списка в котором идут изменения
+                    //и как внести изменения в соотвествующее поле соответствующего объекта
                     @Override
-                    public void handle(TableColumn.CellEditEvent<Organization, String> t) {
-                        ((Organization) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setBossName(t.getNewValue());
+                    public void handle(TableColumn.CellEditEvent<Organization, String> t) {//t хранит информацию, где произошли изменения
+                        //обращаясь к t извлекаем таблицу.получаем ссылку на список.
+                        ((Organization) t
+                                .getTableView()
+                                .getItems()
+                                .get(t.getTablePosition().getRow()))
+                                .setBossName(t.getNewValue());
                     }
-                }
-        );
+                });
 
 
         //столбец персонала
@@ -144,9 +148,24 @@ public class Main extends Application {
         personnelCol.setMinWidth(150);
         personnelCol.setCellValueFactory(new PropertyValueFactory<Organization, Integer>("personnel"));
         personnelCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));//добавляем метод преобразования типа значения
+        personnelCol.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<Organization, Integer>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<Organization, Integer> event) {
+                        ((Organization) event
+                                .getTableView()
+                                .getItems()
+                                .get(event.getTablePosition().getRow()))
+                                .setPersonnel(event.getNewValue());
+                    }
+                });
+        //формируем столбец контейнер
+        TableColumn personnelBossNameCol = new TableColumn("Персонал организации");
+        personnelBossNameCol.getColumns().addAll(personnelCol, bossNameCol);
 
         table.setItems(organizations);//загружаем данные
-        table.getColumns().addAll(nameCol, bossNameCol, personnelCol);//выводим стобцы таблицы
+//        table.getColumns().addAll(nameCol, bossNameCol, personnelCol);//выводим стобцы таблицы
+        table.getColumns().addAll(indexCol, nameCol, personnelBossNameCol);
     }
 
 
