@@ -135,10 +135,10 @@ public class Main extends Application {
                     public void handle(TableColumn.CellEditEvent<Organization, String> t) {//t хранит информацию, где произошли изменения
                         //обращаясь к t извлекаем таблицу.получаем ссылку на список.
                         ((Organization) t
-                                .getTableView()
-                                .getItems()
-                                .get(t.getTablePosition().getRow()))
-                                .setBossName(t.getNewValue());
+                                .getTableView()//возвращаем ссылку на таблицу
+                                .getItems()//возвращаем элементы таблицы
+                                .get(t.getTablePosition().getRow()))//определяем положение объекта
+                                .setBossName(t.getNewValue());//передаем в параметре возвращенное значение события
                     }
                 });
 

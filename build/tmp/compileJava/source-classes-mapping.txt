@@ -8,8 +8,8 @@ JavaFXChartExample/ChartExample.java
  JavaFXChartExample.ChartExample
 JavaFX_332/MouseEvent/MouseEventExample.java
  JavaFX_332.MouseEvent.MouseEventExample
-JavaFX_213/MVCExample/сontroller/ControllerOrganization.java
- JavaFX_213.MVCExample.сontroller.ControllerOrganization
+JavaFX_213/MVCExample/view/ViewOrganisation.java
+ JavaFX_213.MVCExample.view.ViewOrganisation
 JavaFXChartExample/Function.java
  JavaFXChartExample.Function
 JavaFXExample/JavaFXExample.java
@@ -30,6 +30,10 @@ JavaFX_213/Lab3/model/petEditDialog.java
  JavaFX_213.Lab3.model.petEditDialog
 JavaFX_412/TableSimple/Main/Main.java
  JavaFX_412.TableSimple.Main.Main
+ JavaFX_412.TableSimple.Main.Main$1
+ JavaFX_412.TableSimple.Main.Main$1$1
+ JavaFX_412.TableSimple.Main.Main$2
+ JavaFX_412.TableSimple.Main.Main$3
 JavaFX_213/Lab3/view/PetView.java
  JavaFX_213.Lab3.view.PetView
 JavaFX_322/MenuExample/Main.java
@@ -39,5 +43,5 @@ JavaFX_322/MenuExample/Main.java
  JavaFX_322.MenuExample.Main$Season
 JavaFX_412/TableSimple/Model/Organization.java
  JavaFX_412.TableSimple.Model.Organization
-JavaFX_213/MVCExample/view/ViewOrganisation.java
- JavaFX_213.MVCExample.view.ViewOrganisation
+JavaFX_213/MVCExample/сontroller/ControllerOrganization.java
+ JavaFX_213.MVCExample.сontroller.ControllerOrganization
