@@ -1,8 +1,6 @@
 package JavaFX_213.MVCExample.сontroller;
 
-import JavaFX_213.MVCExample.model.ModelOrganization;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import JavaFX_213.MVCExample.model.Organization;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -19,7 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 //import java.awt.*;
-import java.time.LocalDate;
+
 
 /*
 Цель данного класса - создание пользователдского диалога, позволяющего пользователю отредактировать данные, хрянящиеся
@@ -29,7 +27,7 @@ import java.time.LocalDate;
  */
 public class EditDialogOrganization {
     //загружаем все элементы, необходимые для построения окна редактирования
-    private ModelOrganization org;//модель
+    private Organization org;//модель
     private Stage dialog;//этап подмосток
     private TextField nameEdit;//редактор имени
     private Spinner<Integer> personalEdit;//редактор персонала
@@ -157,7 +155,7 @@ public class EditDialogOrganization {
     }
 
     //конструктор класса EditDialogOrganization - задача метода создание отдельного окна для ввода данных
-    public EditDialogOrganization(ModelOrganization org) {
+    public EditDialogOrganization(Organization org) {
         this.org = org;//связь с моделью
         dialog = new Stage();//создание окна
         dialog.initModality(Modality.APPLICATION_MODAL);//настравиваем модельность

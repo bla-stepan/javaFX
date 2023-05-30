@@ -2,8 +2,7 @@ package JavaFX_213.MVCExample.view;
 //в этом классе будем создавать вид
 //задача вида - организация отображения данных
 
-import JavaFX_213.MVCExample.model.ModelOrganization;
-import javafx.beans.Observable;
+import JavaFX_213.MVCExample.model.Organization;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -14,12 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.time.format.DateTimeFormatter;
-
 public class ViewOrganisation {
     //создаем поля класса
     //поле для связи с моделью
-    private ModelOrganization org;//поле для связи с моделью программы
+    private Organization org;//поле для связи с моделью программы
     private GridPane gridPane;//поле для создания контейнера, для размещения на сцене
     private Text orgName;//для вывода названия организации
     private Text orgHoliday;//вывод праздника
@@ -79,7 +76,7 @@ public class ViewOrganisation {
     }
 
     //метод загрузки орнанизации
-    public void setOrganization(ModelOrganization org) {
+    public void setOrganization(Organization org) {
         this.org = org;
         addListenerOrg();
         //для отображения изменения поля бонуса нужно бодавить строку в которой будет передано значения поля уже с изменениями
@@ -87,7 +84,7 @@ public class ViewOrganisation {
     }
 
     //Конструктор вида
-    public ViewOrganisation(ModelOrganization org) {
+    public ViewOrganisation(Organization org) {
         createPane();//метод создания панели (контейнера) для отображения данных
         setOrganization(org);//вызываем метод изменения текстовых полей
     }

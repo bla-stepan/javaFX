@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 import java.time.LocalDate;
 
 //в этом классе будем хранить данные
-public class ModelOrganization {
+public class Organization {
     //создаем поля
     //синхронизируем поля названия организаии и донуса для организации взаимодействия м видом
     private StringProperty name;//делаем строковое поле свойством
@@ -89,7 +89,7 @@ public class ModelOrganization {
     }
 
     //создаем конструктор
-    public ModelOrganization(String name, int personal, String holiday, LocalDate date, Double bonus) {
+    public Organization(String name, int personal, String holiday, LocalDate date, Double bonus) {
         nameProperty().set(name);//this.name = organizationName;
         personalProperty().set(personal);
         holidayProperty().set(holiday);
