@@ -18,11 +18,31 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.Optional;
 
 public class PetMain extends Application {
     PetModel petModel = new PetModel("собака", "Тотошка", "Аннушка", 2, 11);//, "images/Тотошка.jpg");
     private BorderPane rootPane;
+    private ObservableList<PetModel> pets = FXCollections.observableArrayList();
+    private TableView<PetModel> patsTable = new TableView<>();
+    private String message = "";
+    private String filePathName = "src/main/java/JavaFX_213/Lab3/resources/PatsFile.txt";
+
+    private void showMessage(String message) {
+        Alert showMes = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        showMes.showAndWait();
+    }
+
+    @Override
+    public void init() {
+        readeDataFromFile(new File(filePathName));
+    }
+
+    @Override
+    public void stop() {
+        saveDataToFile(new File(filePathName));
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -65,6 +85,52 @@ public class PetMain extends Application {
 
         menuMain.getItems().addAll(editData, new SeparatorMenuItem(), exit);
         return menuMain;
+    }
+
+    private void readeDataFromFile(File dataFile) {
+        try {
+            pets.clear();
+            message = "";
+            BufferedReader dataFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(dataFile), "UTF8"));
+            String str;
+            while ((str = dataFromFile.readLine()) != null) {
+                int ARRAY_FIX_LENGTH = 5;
+                try {
+                    if (str.isEmpty()) break;
+                    String[] dataArray = str.split("/");
+                    if (dataArray.length != ARRAY_FIX_LENGTH) throw new Exception("Ошибка чтения данных из файла");
+                    String type = dataArray[0];
+                    String nickName = dataArray[1];
+                    String ownerName = dataArray[2];
+                    int year = Integer.parseInt(dataArray[3]);
+                    int month = Integer.parseInt(dataArray[4]);
+                    if (month > 12 || month < 1) throw new Exception("Ошибка данных возраста (месяцы)");
+                    PetModel pet = new PetModel(type, nickName, ownerName, month, year);
+                    pets.add(pet);
+                } catch (Exception e) {
+                    message += e.getMessage();
+                    dataFromFile.close();
+                }
+            }
+        } catch (IOException e) {
+            message += e.getMessage();
+        }
+    }
+
+    private void saveDataToFile(File dataFile) {
+        try {
+            Writer dataToFile = new OutputStreamWriter(new FileOutputStream(dataFile), "UTF8");
+            for (PetModel pet : pets) {
+                dataToFile.write(pet.getType() + "/"
+                        + pet.getNickName() + "/"
+                        + pet.getOwnerName() + "/"
+                        + pet.getAgeYear() + "/"
+                        + pet.getAgeMonth()+"\n");
+            }
+            dataToFile.close();
+        } catch (IOException e) {
+            showMessage(e.getMessage());
+        }
     }
 
     private Menu createInformMenu() {
@@ -135,7 +201,7 @@ public class PetMain extends Application {
     }
 
     //контекстное меню
-    private ContextMenu contextMenu(){
+    private ContextMenu contextMenu() {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem green = new MenuItem("Зеленый");
         green.setOnAction((ActionEvent c) -> {
@@ -162,7 +228,7 @@ public class PetMain extends Application {
 
         contextMenu.getItems().addAll(green, yellow, blue, orange, purple);
 
-        rootPane.setOnContextMenuRequested((ContextMenuEvent c)->{
+        rootPane.setOnContextMenuRequested((ContextMenuEvent c) -> {
             contextMenu.show(rootPane, c.getScreenX(), c.getScreenY());
         });
         return contextMenu;
