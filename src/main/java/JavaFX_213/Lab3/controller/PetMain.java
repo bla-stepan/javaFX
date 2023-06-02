@@ -1,8 +1,9 @@
 package JavaFX_213.Lab3.controller;
 
-import JavaFX_213.Lab3.model.petEditDialog;
+import JavaFX_213.Lab3.model.PetEditDialog;
 import JavaFX_213.Lab3.model.PetModel;
 import JavaFX_213.Lab3.view.PetView;
+import JavaFX_213.MVCExample.сontroller.EditDialogOrganization;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -11,11 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -25,7 +28,7 @@ public class PetMain extends Application {
     PetModel petModel = new PetModel("собака", "Тотошка", "Аннушка", 2, 11);//, "images/Тотошка.jpg");
     private BorderPane rootPane;
     private ObservableList<PetModel> pets = FXCollections.observableArrayList();
-    private TableView<PetModel> patsTable = new TableView<>();
+    private TableView<PetModel> petsTable = new TableView<>();
     private String message = "";
     private String filePathName = "src/main/java/JavaFX_213/Lab3/resources/PatsFile.txt";
 
@@ -47,23 +50,18 @@ public class PetMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        if (!message.isEmpty()) showMessage(message);
         //заголовок сцены
         primaryStage.setTitle("Практическое задание про животных");
         //создаем объект класса Pet
 
+        createPetsTable();
+        petsTable.setItems(pets);
 
         rootPane = new BorderPane();//создаем панель (5 областей)
-
-        createSceneElement(petModel);//создаем панель отображения данных о зверушке
-
-        //создаем главное меню
-        MenuBar menu = new MenuBar();
-        //загружаем элементы в меню
-        menu.getMenus().addAll(createMainMenu(), createColorMenu(), createInformMenu());
-
-        rootPane.setTop(menu);
-        rootPane.setCenter(createSceneElement(petModel));
-
+        rootPane.setPadding(new Insets(5));
+        rootPane.setTop(new MenuBar(createMainMenu(), createColorMenu(), createInformMenu()));
+        rootPane.setCenter(petsTable);
         //контекстное меню
         contextMenu();
 
@@ -75,15 +73,21 @@ public class PetMain extends Application {
         Menu menuMain = new Menu("Главное");
         MenuItem editData = new MenuItem("Измеить данные в окне");
         editData.setOnAction((ActionEvent d) -> {
-            new petEditDialog(petModel);
+            new PetEditDialog(petModel);
         });
+        MenuItem addPet = new MenuItem("Добавить");
+        addPet.setOnAction(ActionEvent -> handlerButtonAdd());
+
+        MenuItem fileOpen = new MenuItem("Открыть");
+        fileOpen.setOnAction(ActionEvent -> handlerOpenFile());
+
+        MenuItem saveFile = new MenuItem("Сохранить в файл");
+        saveFile.setOnAction(ActionEvent -> handlerSaveFile());
 
         MenuItem exit = new MenuItem("Выйти");
-        exit.setOnAction((ActionEvent e) -> {
-            Platform.exit();
-        });
+        exit.setOnAction((ActionEvent e) -> Platform.exit());
 
-        menuMain.getItems().addAll(editData, new SeparatorMenuItem(), exit);
+        menuMain.getItems().addAll(fileOpen, saveFile, editData, addPet, new SeparatorMenuItem(), exit);
         return menuMain;
     }
 
@@ -91,13 +95,14 @@ public class PetMain extends Application {
         try {
             pets.clear();
             message = "";
+//            BufferedReader dataFromFile = new BufferedReader(new FileReader(dataFile));
             BufferedReader dataFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(dataFile), "UTF8"));
             String str;
+            int ARRAY_FIX_LENGTH = 5;
             while ((str = dataFromFile.readLine()) != null) {
-                int ARRAY_FIX_LENGTH = 5;
                 try {
                     if (str.isEmpty()) break;
-                    String[] dataArray = str.split("/");
+                    String[] dataArray = str.split(" ");
                     if (dataArray.length != ARRAY_FIX_LENGTH) throw new Exception("Ошибка чтения данных из файла");
                     String type = dataArray[0];
                     String nickName = dataArray[1];
@@ -105,6 +110,7 @@ public class PetMain extends Application {
                     int year = Integer.parseInt(dataArray[3]);
                     int month = Integer.parseInt(dataArray[4]);
                     if (month > 12 || month < 1) throw new Exception("Ошибка данных возраста (месяцы)");
+
                     PetModel pet = new PetModel(type, nickName, ownerName, month, year);
                     pets.add(pet);
                 } catch (Exception e) {
@@ -112,8 +118,9 @@ public class PetMain extends Application {
                     dataFromFile.close();
                 }
             }
+            dataFromFile.close();
         } catch (IOException e) {
-            message += e.getMessage();
+            message += e.getMessage() + "\nошибка";
         }
     }
 
@@ -124,12 +131,40 @@ public class PetMain extends Application {
                 dataToFile.write(pet.getType() + "/"
                         + pet.getNickName() + "/"
                         + pet.getOwnerName() + "/"
-                        + pet.getAgeYear() + "/"
-                        + pet.getAgeMonth()+"\n");
+                        + pet.getAgeYear()+ "/"
+                        + pet.getAgeMonth() + "\n");
             }
             dataToFile.close();
         } catch (IOException e) {
             showMessage(e.getMessage());
+        }
+    }
+
+    private void handlerOpenFile() {
+        FileChooser openFileChooser = new FileChooser();
+        openFileChooser.setTitle("Открыть файл");
+        File openedFile = openFileChooser.showOpenDialog(null);
+        if (openedFile == null) return;
+        readeDataFromFile(openedFile);
+        if (!message.isEmpty()) showMessage(message);
+    }
+
+    private void handlerSaveFile() {
+        FileChooser saveFileChooser = new FileChooser();
+        saveFileChooser.setTitle("Сохраить в файл");
+        File savedFile = saveFileChooser.showSaveDialog(null);
+        if (savedFile == null) return;
+        saveDataToFile(savedFile);
+        if (!message.isEmpty()) showMessage(message);
+    }
+
+    private void handlerButtonAdd() {
+        PetModel petAdded = new PetModel("nип", "кличка", "хозяин", 0, 0);
+        //создаем диалоговое окно редактирования объекта организации
+        PetEditDialog editDialog = new PetEditDialog(petAdded);
+        //если нажата кнопка ок то
+        if (editDialog.getResult() == ButtonType.OK) {
+            pets.add(petAdded);
         }
     }
 
@@ -206,6 +241,7 @@ public class PetMain extends Application {
         MenuItem green = new MenuItem("Зеленый");
         green.setOnAction((ActionEvent c) -> {
             rootPane.setBackground(new Background(new BackgroundFill(Color.rgb(149, 238, 145), CornerRadii.EMPTY, Insets.EMPTY)));
+            petsTable.setBackground(new Background(new BackgroundFill(Color.rgb(149, 230, 145), CornerRadii.EMPTY, Insets.EMPTY)));
         });
         MenuItem purple = new MenuItem("Фиолетовый");
         purple.setOnAction((ActionEvent c1) -> {
@@ -248,11 +284,32 @@ public class PetMain extends Application {
         button.setPrefSize(300, 20);
         button.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
         button.setOnAction(event -> {
-            petEditDialog petEditDialog = new petEditDialog(petModel);
+            PetEditDialog petEditDialog = new PetEditDialog(petModel);
         });
 
         hBox.getChildren().addAll(petView.getDataPane(), new Separator(Orientation.VERTICAL), button);//new Separator(Orientation.VERTICAL), передаем панель, полученную через метод объекта вида
         return hBox;
+    }
+
+    private void createPetsTable() {
+        TableColumn<PetModel, String> petType = new TableColumn<>("Тип");
+        petType.setCellValueFactory(new PropertyValueFactory("type"));
+
+        TableColumn<PetModel, String> petName = new TableColumn<>("Кличка");
+        petName.setCellValueFactory(new PropertyValueFactory("nickName"));
+
+        TableColumn<PetModel, String> petOwnerName = new TableColumn<>("Хозяин");
+        petOwnerName.setCellValueFactory(new PropertyValueFactory("ownerName"));
+
+        TableColumn<PetModel, String> petAgeYear = new TableColumn<>("полных лет");
+        petAgeYear.setCellValueFactory(new PropertyValueFactory("egrYear"));
+
+        TableColumn<PetModel, String> petAgeMonth = new TableColumn<>("месяцев");
+
+        TableColumn petAge = new TableColumn("Возраст");
+        petAge.getColumns().addAll(petAgeYear, petAgeMonth);
+
+        petsTable.getColumns().addAll(petType, petName, petOwnerName, petAge);
     }
 
     private int PREF_W = 160, PREF_H = 10;

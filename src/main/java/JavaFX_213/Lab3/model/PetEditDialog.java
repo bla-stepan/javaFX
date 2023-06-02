@@ -13,7 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class petEditDialog {
+public class PetEditDialog {
     private PetModel pet;//модель
     private Stage dialog;//окно
     private VBox pane;//основная панель
@@ -27,8 +27,10 @@ public class petEditDialog {
     private Font font;//шрифт
     private Double prefW = 150.0, prefH = 10.0;//параметры высоты и ширины
 
+
+    public ButtonType getResult(){return result;}
     //конструктор
-    public petEditDialog(PetModel pet) {
+    public PetEditDialog(PetModel pet) {
         this.pet = pet;
         dialog = new Stage();
         dialog.setTitle("Ввод данных о питомце");

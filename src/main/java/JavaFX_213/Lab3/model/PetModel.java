@@ -15,7 +15,7 @@ public class PetModel {
         setOwnerName(ownerName);//this.ownerName = ownerName;
         setAgeMonth(ageMonth);//this.ageYears = ageYears;
         setAgeYear(ageYear);//this.ageMonth = ageMonth;
-        photo = new Image(getClass().getResourceAsStream("/Lab3/images/"+nickName+".jpg"));
+//        photo = new Image(getClass().getResourceAsStream("/Lab3/images/"+nickName+".jpg"));
     }
 
     //методы Property для свойст
