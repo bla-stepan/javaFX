@@ -13,21 +13,34 @@ public class OrgView {
     private Organization org;
     private StackPane pane;
 
-    public OrgView(){
+    public OrgView() {
         createPane();
     }
 
-    public StackPane createPane(){
-        pane = new StackPane();
-        pane.setPadding(new Insets(5));
+    public void createPane() {
+        pane = new StackPane();//создаем панель. такая панель располагает элементы (стопкой последовательно друг на друга)
+        pane.setPadding(new Insets(5));//задаем отступы
 
-        Rectangle rectangle = new Rectangle(150, 120);
-        rectangle.setFill(Color.AQUA);
-        rectangle.setStroke(Color.DARKBLUE);
-        rectangle.setStrokeWidth(3);
+        Rectangle rectangle = new Rectangle(150, 120);//создаем прямоугольник
+        rectangle.setFill(Color.AQUA);//заполняем цветом
+        rectangle.setStroke(Color.DARKBLUE);//цвет обводки
+        rectangle.setStrokeWidth(3);//толщина обводки границы
 
-        Text textOrg = new Text();
+        pane.getChildren().add(rectangle);//сначало располагаем прямоугольник на панели (индекс 2)
+        Text textOrg = new Text();//создаем текст
 
-        pane.getChildren().addAll(rectangle, textOrg);
+        pane.getChildren().add(textOrg);//повер прямоугольника располагаем текст (индекс 1)
+    }
+
+    public void setOrg(Organization org) {
+        this.org = org;
+        //также формируем надпись
+        //вариант вызова элемента в панели
+        // тип  панель          №элемента работаем с методами элемента
+        ((Text)pane.getChildren().get(1)).setText(org.getName()+"\n"+org.getBossName()+"\n"+org.getPersonnel());
+    }
+
+    public StackPane getPane(){
+        return pane;
     }
 }
