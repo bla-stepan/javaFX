@@ -34,7 +34,7 @@ public class Organization {
     public void setPersonnel(int personnel) {
         this.personnel = personnel;
     }
-
+    //метод сравнения имен руководителей организаций
     public boolean isTheSameBoss(Organization organization){
         return bossName.equals(organization.bossName);
     }

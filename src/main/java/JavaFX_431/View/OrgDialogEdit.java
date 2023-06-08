@@ -103,7 +103,7 @@ public class OrgDialogEdit {
         return nameEdit.getText().matches("[à-ÿÀ-ß0-9&\\-\\+ ]+") && bossNameEdit.getText().matches("[À-ß][à-ÿ]*");
     }
 
-    private Organization getOrg() {
+    public Organization getOrg() {
         return org;
     }
 }
