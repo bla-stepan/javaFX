@@ -23,6 +23,7 @@ sourceCompatibility = 11
 //mainClassName = 'JavaFX_413.TreeViewExample.view.Main'
 
 mainClassName = 'JavaFX_432_Task.MainTask'
+mainClassName='JavaFX_511.FXMLExample.Main'
 
 
 repositories {
